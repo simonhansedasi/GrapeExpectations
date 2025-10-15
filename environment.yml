@@ -56,6 +56,7 @@ dependencies:
   - tk=8.6.15=h54e0aa7_0
   - tornado=6.5.1=py313h5eee18b_0
   - traitlets=5.14.3=py313h06a4308_0
+  - tzdata=2025b=h04d1e81_0
   - wcwidth=0.2.13=py313h06a4308_0
   - wheel=0.45.1=py313h06a4308_0
   - xorg-libx11=1.8.12=h9b100fa_1
@@ -65,33 +66,5 @@ dependencies:
   - xz=5.6.4=h5eee18b_1
   - zeromq=4.3.5=hb0a5e54_1
   - zlib=1.3.1=hb25bd0a_0
-  - pip:
-      - affine==2.4.0
-      - attrs==25.4.0
-      - certifi==2025.10.5
-      - charset-normalizer==3.4.3
-      - click==8.3.0
-      - click-plugins==1.1.1.2
-      - cligj==0.7.2
-      - contourpy==1.3.3
-      - cycler==0.12.1
-      - fonttools==4.60.1
-      - geopandas==1.1.1
-      - idna==3.10
-      - kiwisolver==1.4.9
-      - lxml==6.0.2
-      - matplotlib==3.10.7
-      - numpy==2.3.3
-      - pandas==2.3.3
-      - pillow==11.3.0
-      - pyogrio==0.11.1
-      - pyparsing==3.2.5
-      - pyproj==3.7.2
-      - pytz==2025.2
-      - rasterio==1.4.3
-      - requests==2.32.5
-      - shapely==2.1.2
-      - tqdm==4.67.1
-      - tzdata==2025.2
-      - urllib3==2.5.0
 prefix: /home/simonhans/anaconda3/envs/GrapeExpectations
+

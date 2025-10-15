@@ -76,5 +76,5 @@ dependencies:
       - rasterio
       - matplotlib
 
-prefix: /home/simonhans/anaconda3/envs/GrapeExpectations
+
 

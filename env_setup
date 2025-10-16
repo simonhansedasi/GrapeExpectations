@@ -18,6 +18,7 @@ rasterstats==0.20.0 \
 earthengine-api==0.1.407 \
 geemap==0.20.4 \
 scipy==1.4.1
+scikit-learn==1.0.2
 
 pip install ipykernel
 python -m ipykernel install --user --name=GrapeExpectations --display-name "Python 3.7.6 (GrapeExpectations)"

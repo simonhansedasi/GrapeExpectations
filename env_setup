@@ -17,7 +17,7 @@ numpy==1.21.6 \
 rasterstats==0.20.0 \
 earthengine-api==0.1.407 \
 geemap==0.20.4 \
-scipy==1.4.1
+scipy==1.4.1 \
 scikit-learn==1.0.2
 
 pip install ipykernel

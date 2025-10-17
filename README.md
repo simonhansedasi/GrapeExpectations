@@ -70,25 +70,41 @@ python -m ipykernel install --user --name=GrapeExpectations --display-name "Pyth
 - **Weather data:** Vineyard-wide temperature, rainfall, GDD, etc.  
   - **Source:** [PRISM Climate Data](https://prism.oregonstate.edu/downloads/)  
   
----
-
-## Notebooks
+## Data Wrangling
+Reression Ridge data has already been wrangled and is ready for ML. All notebooks for data wrangling are contained in data_wrangling folder. 
+  
+## Wrangling Notebooks
 
 ### 01_clip_dem
 
 Use polygons to clip and extract elevation data from a DEM geotiff file. Capable of doing vineyard-wide or plot-wide elevation data gathering.
 
-<p align="center">
+<!-- <p align="center">
   <img src="RegressionRidge/img/dem_clip.png" alt="Digital Elevation Map" width="600"/>
 </p>
-
+ -->
 
 ### 02_breakdown_dem
 
 Use rasterstats to derive plot-wise topographic features from clipped elevation data. Features engineered include plot area, slope, aspect, and curvature. These features are further split into directional components for eventual machine learning.
 
+### 03_get_temp_data
 
+Iterate over downloaded PRISM weather data and clip to vineyard polygon. Regression Ridge is large enough to capture a single PRISM polygon, so one measurement per weather feature per day. 
 
+### 04-2_ndvi_smol
+
+Capture various vegetative indices via Sentinel-2 satellite imagery. These measurements are then smoothed and aggregated to provide data for ML.
+
+### 05_assemble_data
+
+Assemble all the various features for ML.
+
+---
+
+## ML
+
+Ready for ML. No notebooks created just yet.
 
 
 

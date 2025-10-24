@@ -1,0 +1,14 @@
+conda create -n GrapeExpectationsML python=3.12.11
+
+conda activate GrapeExpectationsML
+
+pip install scikit-learn==1.7.2 \
+            numpy==2.3.3 \
+            pandas==2.3.3 \
+            xgboost==3.1.1 \
+            tensorflow==2.20.0 \
+            matplotlib
+
+pip install ipykernel
+python -m ipykernel install --user --name=GrapeExpectationsML --display-name "Python GrapeExpectationsML"
+

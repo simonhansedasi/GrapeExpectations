@@ -1,12 +1,13 @@
 # GrapeExpectations
 
-A machine learning appraoch to inferring grape chemistry using topographic and weather data.
+A machine learning project using vineyard vegetation and Earth features.
 
 ---
 
 ## Project Goal
 
-- Use machine learning to predict various seasonal vegetation indices for vineyard plots  
+- Build dataset of vineyard plot features to include: elevation, slope, aspect, soil content, weather, and stress indicators.
+- Apply machine learning to extract insights into connections between Earth features as independant variables and Normalized Difference Vegetation Index (NDVI) as a dependant variable.
 - Translate late season vegetation indices to grape chemistry via transfer functions
 - Derive viticultural insights for growers and wine makers
 
@@ -18,6 +19,7 @@ A machine learning appraoch to inferring grape chemistry using topographic and w
 ### Files for a single vineyard in the Columbia Valley are included. More can be downloaded to duplicate workflow.
 - **Polygons:** Area geometries of vineyard facility and individual plots.
   - **Source:** Google Earth & Rasterio  
+  - Further subsampled using shapely and numpy
 - **Digital Elevation Model:**  
   - **Source:** [National Map Downloader](https://apps.nationalmap.gov/downloader/#/)
 - **Weather data:** Vineyard-wide temperature, rainfall, GDD, etc.  
@@ -27,6 +29,11 @@ A machine learning appraoch to inferring grape chemistry using topographic and w
 Reression Ridge data has already been wrangled and is ready for ML. All notebooks for data wrangling are contained in data_wrangling folder. 
   
 ## Wrangling Notebooks
+
+### 00_subsample_polygons
+
+Import and convert polygons to data objects. Divide polygons into minimum sized hexagons to increase variance of features and increase sample space.
+
 
 ### 01_clip_dem
 
@@ -93,6 +100,10 @@ Ensemble of decision trees and regressors used to predict future week NDVI.
 </p>
 <p align="center">
   <img src="RegressionRidge/img/weekly_preds_resid.png" alt="Digital Elevation Map" width="600"/>
+</p>
+
+<p align="center">
+  <img src="RegressionRidge/img/weekly_pct_preds_resid.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 ---

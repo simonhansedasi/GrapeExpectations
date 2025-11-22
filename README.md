@@ -54,7 +54,9 @@ Capture various vegetative indices via Sentinel-2 satellite imagery. These measu
 <p align="center">
   <img src="RegressionRidge/img/health.png" alt="Digital Elevation Map" width="600"/>
 </p>
-### 05 soil
+
+### 05_soil
+
 Clips polygons from USGS soil map. Analyzes horizon components and computes percent weight of soil features.
 <p align="center">
   <img src="RegressionRidge/img/soil.png" alt="Digital Elevation Map" width="600"/>

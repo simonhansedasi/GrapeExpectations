@@ -22,20 +22,22 @@ A machine learning project using vineyard vegetation and Earth features.
   - Further subsampled using shapely and numpy
 - **Digital Elevation Model:**  
   - **Source:** [National Map Downloader](https://apps.nationalmap.gov/downloader/#/)
+  - Downloaded in notebook
 - **Weather data:** Vineyard-wide temperature, rainfall, GDD, etc.  
   - **Source:** [PRISM Climate Data](https://prism.oregonstate.edu/downloads/)  
+  - Downloaded manually, extracted and clipped in notebook
   
 ## Data Wrangling
 Reression Ridge data has already been wrangled and is ready for ML. All notebooks for data wrangling are contained in data_wrangling folder. 
   
 ## Wrangling Notebooks
 
-### 00_subsample_polygons
+### [00_subsample_polygons](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/00_subsample_polygons.ipynb)
 
 Import and convert polygons to data objects. Divide polygons into minimum sized hexagons to increase variance of features and increase sample space.
 
 
-### 01_clip_dem
+### [01_clip_dem](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/01_clip_dem.ipynb)
 
 Use polygons to clip and extract elevation data from a DEM geotiff file. Capable of doing vineyard-wide or plot-wide elevation data gathering.
 
@@ -44,32 +46,32 @@ Use polygons to clip and extract elevation data from a DEM geotiff file. Capable
 </p>
 
 
-### 02_breakdown_dem
+### [02_breakdown_dem](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/02_breakdown_dem.ipynb)
 
 Use rasterstats to derive plot-wise topographic features from clipped elevation data. Features engineered include plot area, slope, aspect, and curvature. These features are further split into directional components for eventual machine learning.
 <p align="center">
   <img src="RegressionRidge/img/dem_w_slope.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
-### 03_get_temp_data
+### [03_get_temp_data](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/03_get_temp_data.ipynb)
 
 Iterate over downloaded PRISM weather data and clip to vineyard polygon. Regression Ridge is large enough to capture a single PRISM polygon, so one measurement per weather feature per day. 
 
-### 04-2_ndvi_smol
+### [04-2_ndvi_smol](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/04-2_ndvi_smol.ipynb)
 
 Capture various vegetative indices via Sentinel-2 satellite imagery. These measurements are then smoothed and aggregated to provide data for ML.
 <p align="center">
   <img src="RegressionRidge/img/health.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
-### 05_soil
+### [05_soil](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/soil.ipynb)
 
 Clips polygons from USGS soil map. Analyzes horizon components and computes percent weight of soil features.
 <p align="center">
   <img src="RegressionRidge/img/soil.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
-### 06_assemble_data
+### [06_assemble_data](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/05_assemble_data.ipynb)
 
 Assemble all the various features for ML.
 

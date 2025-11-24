@@ -121,7 +121,7 @@ Residuals show a slight pattern, indicating further tuning available. Further, r
 </p>
 
 
-### [Time Series Prediction]
+### [Time Series Prediction](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/ML/time_series.ipynb)
 Simple linear regression proves to be extremely effective with a handful of features. Ready to be scaled to robust single model predicting all plots.
 
 <p align="center">

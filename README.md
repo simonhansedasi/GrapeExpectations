@@ -1,21 +1,63 @@
 # GrapeExpectations
 
-A machine learning project using vineyard vegetation and Earth features.
+Predicting canopy development and vineyard stress using NDVI, weather, soil, and topography.
 
 ---
 
-## Project Goal
+# Project Overview
 
-- Build dataset of vineyard plot features to include: elevation, slope, aspect, soil content, weather, and stress indicators.
-- Apply machine learning to extract insights into connections between Earth features as independant variables and Normalized Difference Vegetation Index (NDVI) as a dependant variable.
-- Translate late season vegetation indices to grape chemistry via transfer functions
+The Normalized Difference Vegetation Index (NDVI) quantifies the difference between red and near-infrared reflectance from vegetation, typically measured via satellite imagery. NDVI is a widely validated indicator of vegetative vigor and is used to assess multiple aspects of vineyard health, including canopy growth, stress, and variability.
+
+GrapeExpectations builds a comprehensive vineyard dataset and trains machine learning models to predict NDVI for vineyard plots, providing actionable insights into canopy development, stress detection, and potential yield impacts.
+
+## Goal
+
+- Build dataset of vineyard plot features from various sources -- National Map Downloader: DEM, USGS: Soil maps, Sentinel-2: NDVI
+- Apply machine learning to link environmental drivers to NDVI trajectories
+<!-- - Apply machine learning to extract insights into connections between Earth features as independant variables and Normalized Difference Vegetation Index (NDVI) as a dependant variable. -->
+- Translate late season vegetation indices to grape chemistry
 - Derive viticultural insights for growers and wine makers
 
+## Current Progress
+
+- **Data Integration:** Compiled 9 years of satellite NDVI, daily weather records, soil maps, and topographic data for all vineyard blocks.
+
+- **Spatial Standardization:** Subdivided vineyard plots into consistent grid cells to align environmental, soil, and remote sensing data.
+
+- **NDVI Processing:** Smoothed and interpolated NDVI time series to remove noise and create consistent seasonal curves.
+
+- **Baseline Modeling:** Developed linear regression models to capture seasonal NDVI patterns and benchmark canopy development.
+
+- **Ensemble ML Modeling:** Implemented Random Forest and XGBoost models using soil, weather, and topography features; preliminary results show strong correlation between environmental drivers and NDVI trajectories.
+
+- **Clustering & Spatial Analysis:** Applied PCA and K-means clustering to identify distinct vineyard zones, highlighting spatial variability and potential management units.
+
+- **Documentation & Reproducibility:** Established a clear pipeline for data preprocessing, modeling, and visualization in Python notebooks, ensuring repeatability and scalability for future analyses.
 
 
+
+## Future Direction / Applications
+- **Probabilistic & Bayesian Modeling**
+    - Introduce Bayesian state-space models and MCMC sampling to treat NDVI as an evolving latent state.
+    - Quantify uncertainty in canopy development predictions, enabling early detection of water stress or other anomalies.
+- **Irrigation & Water Management**
+    - Use model outputs to inform precision irrigation schedules.
+    - Detect sub-block variability in water stress, guiding targeted interventions to optimize vine health and conserve water.
+- **Vineyard Zoning & Management Units**
+    - Expand clustering analysis to dynamically define vineyard management zones based on soil, topography, and NDVI trends.
+    - Provide actionable maps for canopy uniformity, harvest planning, and targeted inputs.
+- **Forecasting & Operational Decision Support**
+    - Predict NDVI 1–3 weeks ahead to help anticipate canopy changes, stress events, or ripening trends.
+    - Integrate environmental forecasts to support proactive vineyard management decisions.
+- **Linking Vegetation to Grape Composition**
+    - Investigate relationships between NDVI trajectories and grape chemistry (°Brix, TA, pH).
+    - Enable predictive insights that inform harvest timing and fruit quality optimization.
+- **Multi-Site Scalability**
+    - Generalize modeling framework to other vineyard blocks or regions.
+    - Enable cross-site comparisons and standardized decision-support tools for broader operational use.
 ---
 
-## Data
+# Data
 ### Files for a single vineyard in the Columbia Valley are included. More can be downloaded to duplicate workflow.
 - **Polygons:** Area geometries of vineyard facility and individual plots.
   - **Source:** Google Earth & Rasterio  
@@ -27,11 +69,15 @@ A machine learning project using vineyard vegetation and Earth features.
   - **Source:** [PRISM Climate Data](https://prism.oregonstate.edu/downloads/)  
   - Downloaded manually, extracted and clipped in notebook
   
-## Data Wrangling
-Reression Ridge data has already been wrangled and is ready for ML. All notebooks for data wrangling are contained in data_wrangling folder. 
   
-## Wrangling Notebooks
+  
+  
+---
+# Workflow
 
+## Data Wrangling
+Regression Ridge data has already been wrangled and is ready for ML. All notebooks for data wrangling are contained in data_wrangling folder. 
+  
 ### [00_subsample_polygons](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/00_subsample_polygons.ipynb)
 
 Import and convert polygons to data objects. Divide polygons into minimum sized hexagons to increase variance of features and increase sample space.
@@ -86,7 +132,7 @@ Assemble all the various features for ML.
 Assembled data includes 3598 individual plot cells capturing NDVI over 9 years. Each cell features describe surface topography, weather, and soil context. Seasonal NDVI curves are supplied as features to predict coming weeks.
 
 ### [PCA & Clustering](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/ML/clustering.ipynb)
-Perform Principal Component Analysis to reduce feature space to two dimensions. Embedded a gradient boosted regressor to fit health targets ans dependent on surface and soil features. Using these embeddings, Kmeans clustering finds 3 descriptive clusters.
+Perform Principal Component Analysis to reduce feature space to two dimensions. Embedded a gradient boosted regressor to fit health targets and dependant on surface and soil features. Using these embeddings, Kmeans clustering finds 3 descriptive clusters.
 <p align="center">
   <img src="RegressionRidge/img/cluster_pca.png" alt="Digital Elevation Map" width="600"/>
 </p>
@@ -173,70 +219,4 @@ python -m ipykernel install --user --name=GrapeExpectations --display-name "Pyth
 ```
 
 
-  
-  
-<!-- - **Plot characteristics:** elevation, slope, aspect, frost risk  
-  - **Source:** Derived from Digital Elevation Model  
- -->
-<!-- <p align="center">
-  <img src="RegressionRidge/img/dem_w_slope.png" alt="Plot Characteristics" width="600"/>
-</p>
-
- -->
-<!-- <p align="center">
-  <img src="RegressionRidge/img/frost_risk.png" alt="Frost Risk" width="600"/>
-</p>
- --> 
-<!-- - **NDVI measurements:** Derived from remote sensing for vegetation monitoring using Copernicus satellite data.  
-
-<p align="center">
-  <img src="RegressionRidge/img/ndvi_spaghetti.png" alt="NDVI Measurements" width="600"/>
-</p>
-
----
-
-## Features
-
-- Plot-level terrain features: slope, aspect (sin/cos), elevation  
-- Weather features: seasonal and daily aggregates, growing degree days  
-
----
-
-## Modeling
-
-**Goal:** Predict NDVI integral per vineyard plot  
-
-- **Model:** XGBoost regression  
-- **Test R²:** 0.82 — strong predictive performance  
-
-**Predictions vs Observations:**  
-
-<p align="center">
-  <img src="RegressionRidge/img/pred_vs_obs.png" alt="Predicted vs Observed NDVI Integral" width="600"/>
-</p>
-
-**Residuals:**  
-
-<p align="center">
-  <img src="RegressionRidge/img/residuals.png" alt="Residuals of NDVI Predictions" width="600"/>
-</p>
-
-**Feature Importance:**  
-- Top drivers reflect **biological constraints** on vine growth:  
-  - **VPD & minimum temperatures** → canopy development and stress tolerance  
-  - **Slope & aspect** → microclimate and sunlight exposure  
-  - **Frost days** → sensitivity during early growth  
-  - **Elevation** → temperature gradients and site-specific conditions  
-
-<p align="center">
-  <img src="RegressionRidge/img/feature_imp.png" alt="Top Features Influencing NDVI Integral" width="600"/>
-</p>
-
-**Techniques:**  
-
-- Train/test split with early stopping  
-- Feature importance analysis  
-- Residual evaluation to detect bias patterns  
-
----
- -->
+ 

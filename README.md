@@ -55,6 +55,7 @@ GrapeExpectations builds a comprehensive vineyard dataset and trains machine lea
 - **Multi-Site Scalability**
     - Generalize modeling framework to other vineyard blocks or regions.
     - Enable cross-site comparisons and standardized decision-support tools for broader operational use.
+    
 ---
 
 # Data

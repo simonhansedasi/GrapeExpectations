@@ -10,6 +10,7 @@ The Normalized Difference Vegetation Index (NDVI) quantifies the difference betw
 
 GrapeExpectations builds a comprehensive vineyard dataset and trains machine learning models to predict NDVI for vineyard plots, providing actionable insights into canopy development, stress detection, and potential yield impacts.
 
+
 ## Goal
 
 - Build dataset of vineyard plot features from various sources -- National Map Downloader: DEM, USGS: Soil maps, Sentinel-2: NDVI

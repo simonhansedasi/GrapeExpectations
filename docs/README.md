@@ -2,11 +2,11 @@
 ### Precision Vineyard Monitoring with Distributed Fiber-Optic Sensing
 
 **White Paper (PDF):**  
-[View the full white paper](./docs/GrapeExpectations.pdf)
+[View the full white paper](GrapeExpectations.pdf)
 
 Or browse the LaTeX source in `/docs/GrapeExpectations.pdf'.
 
-<embed src="./docs/GrapeExpectations.pdf" width="100%" height="900px" type="application/pdf">
+<embed src="GrapeExpectations.pdf" width="100%" height="900px" type="application/pdf">
 
 <!-- 
 

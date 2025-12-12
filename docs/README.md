@@ -1,4 +1,4 @@
-# Grape Expectations  
+<!-- # Grape Expectations  
 ### Precision Vineyard Monitoring with Distributed Fiber-Optic Sensing
 
 �� **White Paper (PDF):**  
@@ -10,7 +10,7 @@ Or browse the LaTeX source in `/docs/grape_expectations.tex`.
 
 
 
-<!-- # GrapeExpectations
+# GrapeExpectations
 
 Predicting canopy development and vineyard stress using NDVI, weather, soil, and topography.
 

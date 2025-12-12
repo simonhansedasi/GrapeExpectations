@@ -1,4 +1,16 @@
-# GrapeExpectations
+# Grape Expectations  
+### Precision Vineyard Monitoring with Distributed Fiber-Optic Sensing
+
+�� **White Paper (PDF):**  
+[View the full white paper](./docs/grape_expectations.pdf)
+
+Or browse the LaTeX source in `/docs/grape_expectations.tex`.
+
+<embed src="./docs/grape_expectations.pdf" width="100%" height="900px" type="application/pdf">
+
+
+
+<!-- # GrapeExpectations
 
 Predicting canopy development and vineyard stress using NDVI, weather, soil, and topography.
 
@@ -15,7 +27,6 @@ GrapeExpectations builds a comprehensive vineyard dataset and trains machine lea
 
 - Build dataset of vineyard plot features from various sources -- National Map Downloader: DEM, USGS: Soil maps, Sentinel-2: NDVI
 - Apply machine learning to link environmental drivers to NDVI trajectories
-<!-- - Apply machine learning to extract insights into connections between Earth features as independant variables and Normalized Difference Vegetation Index (NDVI) as a dependant variable. -->
 - Translate late season vegetation indices to grape chemistry
 - Derive viticultural insights for growers and wine makers
 
@@ -221,4 +232,4 @@ python -m ipykernel install --user --name=GrapeExpectations --display-name "Pyth
 ```
 
 
- 
+  -->

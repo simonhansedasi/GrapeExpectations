@@ -1,4 +1,4 @@
-<!-- # Grape Expectations  
+# Grape Expectations  
 ### Precision Vineyard Monitoring with Distributed Fiber-Optic Sensing
 
 �� **White Paper (PDF):**  
@@ -6,9 +6,9 @@
 
 Or browse the LaTeX source in `/docs/grape_expectations.tex`.
 
-<embed src="./docs/grape_expectations.pdf" width="100%" height="900px" type="application/pdf">
+<embed src="./docs/GrapeExpectations.pdf" width="100%" height="900px" type="application/pdf">
 
-
+<!-- 
 
 # GrapeExpectations
 

@@ -1,4 +1,4 @@
-# Grape Expectations  
+<!-- # Grape Expectations  
 ### Precision Vineyard Monitoring with Distributed Fiber-Optic Sensing
 
 **White Paper (PDF):**  
@@ -6,9 +6,9 @@
 
 Or browse the LaTeX source in `/docs/GrapeExpectations.pdf'.
 
-<embed src="GrapeExpectations.pdf" width="100%" height="900px" type="application/pdf">
+<embed src="GrapeExpectations.pdf" width="100%" height="900px" type="application/pdf"> -->
 
-<!-- 
+
 
 # GrapeExpectations
 
@@ -232,4 +232,4 @@ python -m ipykernel install --user --name=GrapeExpectations --display-name "Pyth
 ```
 
 
-  -->
+ 

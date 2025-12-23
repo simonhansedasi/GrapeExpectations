@@ -101,7 +101,7 @@ Import and convert polygons to data objects. Divide polygons into minimum sized 
 Use polygons to clip and extract elevation data from a DEM geotiff file. Capable of doing vineyard-wide or plot-wide elevation data gathering.
 
 <p align="center">
-  <img src="RegressionRidge/img/dem_clip.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/dem_clip.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 
@@ -109,7 +109,7 @@ Use polygons to clip and extract elevation data from a DEM geotiff file. Capable
 
 Use rasterstats to derive plot-wise topographic features from clipped elevation data. Features engineered include plot area, slope, aspect, and curvature. These features are further split into directional components for eventual machine learning.
 <p align="center">
-  <img src="RegressionRidge/img/dem_w_slope.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/dem_w_slope.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 ### [03_get_temp_data](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/03_get_temp_data.ipynb)
@@ -117,21 +117,21 @@ Use rasterstats to derive plot-wise topographic features from clipped elevation 
 Iterate over downloaded PRISM weather data and clip to vineyard polygon. Regression Ridge is large enough to capture a single PRISM polygon, so one measurement per weather feature per day. 
 
 <p align="center">
-  <img src="RegressionRidge/img/temp_timeseries.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/temp_timeseries.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 ### [04-2_ndvi_smol](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/04-2_ndvi_smol.ipynb)
 
 Capture various vegetative indices via Sentinel-2 satellite imagery. These measurements are then smoothed and aggregated to provide data for ML.
 <p align="center">
-  <img src="RegressionRidge/img/health.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/health.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 ### [05_soil](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/05_soil.ipynb)
 
 Clips polygons from USGS soil map. Analyzes horizon components and computes percent weight of soil features.
 <p align="center">
-  <img src="RegressionRidge/img/soil.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/soil.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 ### [06_assemble_data](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/data_wrangling/06_assemble_data.ipynb)
@@ -147,19 +147,19 @@ Assembled data includes 3598 individual plot cells capturing NDVI over 9 years. 
 ### [PCA & Clustering](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/ML/clustering.ipynb)
 Perform Principal Component Analysis to reduce feature space to two dimensions. Embedded a gradient boosted regressor to fit health targets and dependant on surface and soil features. Using these embeddings, Kmeans clustering finds 3 descriptive clusters.
 <p align="center">
-  <img src="RegressionRidge/img/cluster_pca.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/cluster_pca.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 These clusters can be mapped to the vineyard to compare with soil or topography distributions.
 
 <p align="center">
-  <img src="RegressionRidge/img/dem_w_cluster.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/dem_w_cluster.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 Cluster feature weights can be examined for insights for dependence of NDVI inter-year vigor and stability on system variables.
 
 <p align="center">
-  <img src="RegressionRidge/img/radar_cluster.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/radar_cluster.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 
@@ -167,16 +167,16 @@ Cluster feature weights can be examined for insights for dependence of NDVI inte
 ### [Forest Ensemble NDVI Prediction](https://github.com/simonhansedasi/GrapeExpectations/blob/main/RegressionRidge/ML/forest_ensemble.ipynb)
 Ensemble of decision trees and regressors used to predict future week NDVI. Machine learning ensemble includes Random Forest, Extra Tree Regressor, Gradient Boosting Regressor, XGBRegressor, KNeighbors Regressor. ElasticNetCV is used as a meta model and final estimator. This multi-output regressor achieves R2: 0.992, RMSE: 0.000084 on the train set, and R2 0.967, RMSE 0.00033 on the tune set.
 <p align="center">
-  <img src="RegressionRidge/img/weekly_preds.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/weekly_preds.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 Residuals show a slight pattern, indicating further tuning available. Further, residuals remain tight for the near weeks and spreads as the model predicts more distant weeks. Time series prediction may be a better approach.
 <p align="center">
-  <img src="RegressionRidge/img/weekly_preds_resid.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/weekly_preds_resid.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 <p align="center">
-  <img src="RegressionRidge/img/weekly_pct_preds_resid.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/weekly_pct_preds_resid.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 
@@ -184,7 +184,7 @@ Residuals show a slight pattern, indicating further tuning available. Further, r
 Simple linear regression proves to be extremely effective with a handful of features. Ready to be scaled to robust single model predicting all plots.
 
 <p align="center">
-  <img src="RegressionRidge/img/ts_lr.png" alt="Digital Elevation Map" width="600"/>
+  <img src="../RegressionRidge/img/ts_lr.png" alt="Digital Elevation Map" width="600"/>
 </p>
 
 

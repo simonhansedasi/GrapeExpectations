@@ -91,6 +91,35 @@ GrapeExpectations/
 
 ---
 
+## BI + GIS dashboard / static & animated maps (`powerbi_dashboard/`)
+
+Side deliverable built on the v2 100 m² grid (33,028 cells post hex-grid fix, 2026-08-19), separate from the paper pipeline — job-market tool practice (BI + GIS), not part of the manuscript.
+
+**This is a different model from the paper's v1 result above.** The v2 grid trains its own RF + GBT ensemble in `RegressionRidge/spark_pipeline/05_spark_ml.ipynb` — GBT test R² = 0.8950, RMSE = 0.03164 (the number on the public site), vs. the v1 stacked ensemble's R² = 0.9323 quoted above for the paper. Different grid resolution, different feature set, not directly comparable.
+
+| File | What it produces |
+|------|-------------------|
+| `export_powerbi.py` | Star-schema CSV export (`dim_cells`, `dim_years`, `fact_ndvi_yearly`) for Power BI / Looker Studio / Tableau. `dim_cells` includes both raw terrain scalars and their vector decomposition (`slope_x`/`slope_y`/`aspect_cos`/`aspect_sin`/`profile_curv_mean`/`plan_curv_mean`) plus 10-year-average phenology rates (`buildup_rate_mean`/`decline_rate_mean`); `fact_ndvi_yearly` carries the per-year detail behind those averages (`buildup_rate`/`decline_rate` at cell×year grain) |
+| `export_qgis.py` | GeoPackage export (`grapeexpectations.gpkg`) — real hex polygon geometry + terrain + NDVI trend, for QGIS |
+| `HOW_TO_LOAD.md` | Looker Studio loading walkthrough (Power BI Service needs a work email; this project uses Looker Studio instead), plus a Tableau note (parked — no Linux desktop client) |
+| `HOW_TO_LOAD_QGIS.md` | QGIS loading + graduated-symbology walkthrough |
+| `canopy_trend_map.py` | Static PNG: 2024 canopy build-up (bud break to pre-harvest peak) |
+| `harvest_decline_map.py` | Static PNG: 2024 harvest-window decline |
+| `ndvi_season_gif.py [year]` | Animated GIF: NDVI through one growing season, real satellite dates |
+| `_mapping.py` | Shared geometry/color helpers used by all map scripts |
+
+Run any script directly from `powerbi_dashboard/` — each reads straight from `RegressionRidge/data/`. See `CONTEXT.md` for the full writeup, including a data-quality note on three cloud-contaminated 2024 NDVI dates and a warning that `ML/clusters.csv` predates the v2 regrid and should not be joined to current data.
+
+## Public report site (`site/`)
+
+Static page at `grape-expectations.simonhansedasi.com` — a full report tying together three branches: §1 Pipeline (ingestion, feature engineering, model training/evaluation, spatial residual diagnostics — the ML side), §2 GIS (QGIS export + toggle between two graduated-symbology maps + matplotlib fallback), §3 BI (Looker Studio walkthrough + star-schema CSV downloads). Deploy with `site/deploy_hetzner.sh` (rsyncs to the Hetzner box, no DNS change needed — `*.simonhansedasi.com` is already wildcarded there, and `.ipynb_checkpoints/` is excluded from the sync). `site/nginx_grape_expectations.conf` is a reference config; the live server block's cert directives should be copied from an already-working simonhansedasi.com subdomain rather than assumed from this file.
+
+**Live and current as of 2026-08-19** — https://grape-expectations.simonhansedasi.com, all data/images on the corrected 33,028-cell grid, §1's model-report figures (actual-vs-predicted, spatial residuals, both models' feature importances) generated fresh the same day. Re-run `site/deploy_hetzner.sh` for content updates; nginx/cert are already provisioned. §3 (BI/Looker) is still being actively written — check CONTEXT.md before assuming it's finished.
+
+**Idea for later (not built): three-column layout.** Simon wants the three branches (§1/§2/§3) side by side instead of stacked vertically, so a visitor doesn't have to scroll past the whole pipeline report to reach GIS or BI. Not started.
+
+---
+
 ## Environment
 
 Python 3.10+. Key dependencies: `geopandas`, `rasterio`, `earthengine-api`, `scikit-learn`, `xgboost`, `pandas`, `numpy`.

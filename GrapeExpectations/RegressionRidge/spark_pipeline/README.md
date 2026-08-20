@@ -11,6 +11,8 @@ Rebuilds the precision viticulture pipeline at native Sentinel-2 (10m) resolutio
 sudo apt install -y openjdk-17-jdk   # PySpark requires Java 11+
 ```
 
+**Memory gotcha (2026-08-19):** `spark.driver.memory` in notebooks 04b/05 was written on office (the desktop, more RAM). sbook (the laptop) has only 15GB total RAM — a driver heap request above ~10-12g on sbook can't be satisfied and crashes the whole Jupyter Lab process, not just the notebook. Check `free -h` before rerunning these on a different machine and size the config to what's actually free.
+
 ## Run order
 
 | Notebook | Env | Description |

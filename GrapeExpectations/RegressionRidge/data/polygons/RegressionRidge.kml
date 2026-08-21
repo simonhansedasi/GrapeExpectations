@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>CanoeRidge</name>
+	<gx:CascadingStyle kml:id="__managed_style_0B1B52E6D03A89501F54">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>6</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_12F2F0D39C3A89501F51">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=1976d2&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<displayMode>hide</displayMode>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0AF29D77A43A89501F51">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_12F2F0D39C3A89501F51</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_0B1B52E6D03A89501F54</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Folder id="03B2F554793A88D54D36">
+		<name>CanoeRidge</name>
+		<open>1</open>
+		<styleUrl>#__managed_style_0AF29D77A43A89501F51</styleUrl>
+		<Placemark id="0DC11652ED3A88D892C3">
+			<name>CanoeRidge_Full</name>
+			<LookAt>
+				<longitude>-119.760909024707</longitude>
+				<latitude>45.86603055639841</latitude>
+				<altitude>84.54341924693085</altitude>
+				<heading>329.7428826998461</heading>
+				<tilt>0</tilt>
+				<gx:fovy>35</gx:fovy>
+				<range>12135.23402070743</range>
+				<altitudeMode>absolute</altitudeMode>
+			</LookAt>
+			<styleUrl>#__managed_style_0AF29D77A43A89501F51</styleUrl>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							-119.7817085421966,45.86645962735573,0 -119.7732177185649,45.86778903409721,0 -119.7598870377607,45.87193587527503,0 -119.75499365367,45.87347707178321,0 -119.742534171263,45.87671929002862,0 -119.7359671084398,45.87896812794862,0 -119.7345908331143,45.88742735017087,0 -119.7316188781327,45.89063874119374,0 -119.7317019415214,45.89268973776764,0 -119.7320442839739,45.89322857664494,0 -119.7356384478239,45.89275701924168,0 -119.7385231918188,45.89191646547086,0 -119.7422771845066,45.89174090022318,0 -119.7432644403291,45.89164549451554,0 -119.7438647503326,45.89116813035912,0 -119.7438418863266,45.89066464299885,0 -119.7439692986834,45.89023276509005,0 -119.7444589572767,45.89004797206458,0 -119.7452500067737,45.88887644598686,0 -119.7456646405232,45.88849730698071,0 -119.7470689832135,45.88769106104362,0 -119.7490534827922,45.88732510541855,0 -119.7502230982708,45.88731435729438,0 -119.7502202052205,45.8857233288053,0 -119.7502470011966,45.88404313375824,0 -119.7530048932973,45.88408322410306,0 -119.7617218814615,45.88324766778601,0 -119.765907386516,45.88310258235975,0 -119.770388685337,45.88234133374965,0 -119.7741664670838,45.88118984194673,0 -119.7804297418745,45.87937953659672,0 -119.7847372861071,45.87896000520014,0 -119.7854654072449,45.87846876472899,0 -119.7917663987246,45.86788629358952,0 -119.7916928453991,45.86651586465648,0 -119.7817085421966,45.86645962735573,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

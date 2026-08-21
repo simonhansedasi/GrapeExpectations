@@ -1,0 +1,490 @@
+% ============================================================
+% references.bib — GeoGastronomy / Hawaiian Coffee Paper
+% ============================================================
+% Annotation convention:
+%   ROLE: where / why this source is cited in the manuscript
+%   USED: cite key(s) and section(s)
+% ============================================================
+
+
+% ── FOUNDATIONAL SDM / CONTINUOUS-SURFACE PARADIGM ──────────
+% These three establish the standard practice the paper critiques:
+% treating thermal surfaces as if land is uniformly available.
+% USED: Introduction (opening claim), Discussion §6.1
+
+% ROLE: WorldClim — canonical continuous climate surface product;
+%        emblematic of the paradigm the paper corrects.
+@article{Hijmans2005,
+  author    = {Hijmans, Robert J. and Cameron, Susan E. and Parra, Juan L.
+               and Jones, Peter G. and Jarvis, Andy},
+  title     = {Very high resolution interpolated climate surfaces for global
+               land areas},
+  journal   = {International Journal of Climatology},
+  year      = {2005},
+  volume    = {25},
+  number    = {15},
+  pages     = {1965--1978},
+  doi       = {10.1002/joc.1276},
+}
+
+% ROLE: Landmark SDM review; documents the field-wide convention of
+%        projecting suitability across continuous geographic surfaces
+%        without terrain feasibility screens.
+@article{Elith2009,
+  author    = {Elith, Jane and Leathwick, John R.},
+  title     = {Species Distribution Models: Ecological Explanation and
+               Prediction Across Space and Time},
+  journal   = {Annual Review of Ecology, Evolution, and Systematics},
+  year      = {2009},
+  volume    = {40},
+  pages     = {677--697},
+  doi       = {10.1146/annurev.ecolsys.110308.120159},
+}
+
+% ROLE: MaxEnt — foundational SDM method that outputs continuous
+%        probability surfaces across all land cells, representative
+%        of the "uniform availability" assumption.
+@article{Phillips2006,
+  author    = {Phillips, Steven J. and Anderson, Robert P. and Schapire, Robert E.},
+  title     = {Maximum entropy modeling of species geographic distributions},
+  journal   = {Ecological Modelling},
+  year      = {2006},
+  volume    = {190},
+  number    = {3--4},
+  pages     = {231--259},
+  doi       = {10.1016/j.ecolmodel.2005.03.026},
+}
+
+
+% ── COFFEE CLIMATE SUITABILITY (TEMPERATURE-FIRST MODELLING) ─
+% These anchor the claim that prior coffee studies treat temperature
+% as the primary — often sole — screen for production suitability.
+% USED: Introduction §1.2 (temperature-as-primary-driver),
+%        Discussion §6.1 (re-use), Discussion §6.5 (Andean / global)
+
+% ROLE: Widely cited coffee + climate suitability paper; uses
+%        temperature-driven bioclimate surfaces island/region-wide.
+@article{Bunn2015,
+  author    = {Bunn, Christian and L{\"a}derach, Peter and
+               Ovalle Rivera, Oriana and Kirschke, Dietrich},
+  title     = {A bitter cup: climate change profile of global production
+               of \textit{{A}rabica} and \textit{{R}obusta} coffee},
+  journal   = {Climatic Change},
+  year      = {2015},
+  volume    = {129},
+  number    = {1--2},
+  pages     = {89--101},
+  doi       = {10.1007/s10584-014-1306-x},
+}
+
+% ROLE: Coffee supply-chain climate projection using thermal envelope
+%        without terrain feasibility screen; also used in §6.5 Andes.
+@incollection{Laderach2011,
+  author    = {L{\"a}derach, Peter and Lundy, Mark and Jarvis, Andy and
+               Ram{\'i}rez, Juliana and Portilla, Emilio P. and
+               Schepp, Katharina and Eitzinger, Anton},
+  title     = {Predicted impact of climate change on coffee-supply chains},
+  booktitle = {The Economic, Social and Political Elements of Climate Change},
+  editor    = {Leal Filho, Walter},
+  publisher = {Springer},
+  address   = {Berlin},
+  year      = {2011},
+  doi       = {10.1007/978-3-642-14776-0_42},
+}
+
+% ROLE: Arabica climate sensitivity and origin diversity; used in
+%        §6.5 for Ethiopian highland Arabica constraint claim.
+@article{Davis2012,
+  author    = {Davis, Aaron P. and Gole, Tadesse W. and Baena, Samuel
+               and Moat, Justin},
+  title     = {The Impact of Climate Change on Indigenous {A}rabica Coffee
+               (\textit{{C}offea arabica}): Predicting Future Trends and
+               Identifying Priorities},
+  journal   = {PLOS ONE},
+  year      = {2012},
+  volume    = {7},
+  number    = {11},
+  pages     = {e47981},
+  doi       = {10.1371/journal.pone.0047981},
+}
+
+% ROLE: Global Coffea arabica suitability shifts under CMIP5;
+%        temperature-driven approach — directly the paradigm corrected
+%        here. Used in Introduction and §6.5 Andean systems.
+@article{OvalleRivera2015,
+  author    = {Ovalle-Rivera, Oriana and L{\"a}derach, Peter and
+               Bunn, Christian and Obersteiner, Michael and Schroth, G{\"o}tz},
+  title     = {Projected Shifts in \textit{{C}offea arabica} Suitability
+               among Major Global Producing Regions Due to Climate Change},
+  journal   = {PLOS ONE},
+  year      = {2015},
+  volume    = {10},
+  number    = {4},
+  pages     = {e0124155},
+  doi       = {10.1371/journal.pone.0124155},
+}
+
+
+% ── NICHE THEORY ─────────────────────────────────────────────
+% USED: Introduction (feasibility manifold as realized niche analogue)
+
+% ROLE: Foundational Hutchinsonian niche paper; defines fundamental vs.
+%        realized niche. The feasibility manifold (Tr ∩ Cr) maps directly
+%        onto the realized-niche concept: thermally suitable space is the
+%        fundamental niche; terrain-constrained space is the realized
+%        agricultural niche.
+@inproceedings{Hutchinson1957,
+  author    = {Hutchinson, G. Evelyn},
+  title     = {Concluding remarks},
+  booktitle = {Cold Spring Harbor Symposia on Quantitative Biology},
+  year      = {1957},
+  volume    = {22},
+  pages     = {415--427},
+}
+
+% ROLE: Mechanistic niche modelling review; explicitly contrasts
+%        correlative (SDM/MaxEnt) and mechanistic approaches, and
+%        identifies the absence of physiological and spatial feasibility
+%        constraints as the core limitation of correlative methods.
+%        Anchors the SDM critique in Introduction.
+@article{Kearney2009,
+  author    = {Kearney, Michael and Porter, Warren},
+  title     = {Mechanistic niche modelling: combining physiological and
+               spatial data to predict species' ranges},
+  journal   = {Ecology Letters},
+  year      = {2009},
+  volume    = {12},
+  number    = {4},
+  pages     = {334--350},
+  doi       = {10.1111/j.1461-0248.2008.01277.x},
+}
+
+% ── AGRICULTURAL LAND AVAILABILITY ───────────────────────────
+% USED: Introduction (land not uniformly available for cultivation)
+
+% ROLE: Global synthesis distinguishing climatically suitable land from
+%        actually cultivated/accessible land; documents that large fractions
+%        of climatically feasible area are unavailable for agriculture due
+%        to terrain, tenure, and access constraints. Supports the central
+%        premise that climate suitability ≠ cultivable area.
+@article{Foley2011,
+  author    = {Foley, Jonathan A. and Ramankutty, Navin and Brauman, Kate A.
+               and Cassidy, Emily S. and Gerber, James S. and Johnston, Matt
+               and Mueller, Nathaniel D. and O'Connell, Christine and
+               Ray, Deepak K. and West, Paul C. and Balzer, Christian and
+               Bennett, Elena M. and Carpenter, Stephen R. and Hill, Jason
+               and Monfreda, Chad and Polasky, Stephen and
+               Rockstr{\"o}m, Johan and Sheehan, John and Siebert, Stefan
+               and Tilman, David and Zaks, David P. M.},
+  title     = {Solutions for a cultivated planet},
+  journal   = {Nature},
+  year      = {2011},
+  volume    = {478},
+  pages     = {337--342},
+  doi       = {10.1038/nature10452},
+}
+
+% ── HABITAT MODELLING THEORY ──────────────────────────────────
+% USED: Methods §4.2 (thermal envelope Gaussian niche formulation)
+
+% ROLE: Foundational review of predictive habitat distribution
+%        modelling; provides theoretical basis for Gaussian niche
+%        envelope approach used in the thermal model.
+@article{Guisan2000,
+  author    = {Guisan, Antoine and Zimmermann, Niklaus E.},
+  title     = {Predictive habitat distribution models in ecology},
+  journal   = {Ecological Modelling},
+  year      = {2000},
+  volume    = {135},
+  number    = {2--3},
+  pages     = {147--186},
+  doi       = {10.1016/S0304-3800(00)00354-9},
+}
+
+
+% ── VITICULTURE / TERROIR TERRAIN ANALOGY ────────────────────
+% USED: Discussion §6.5 (cool-climate viticulture as terrain-bound system)
+
+% ROLE: Demonstrates terrain-linked terroir constraint in wine grapes;
+%        parallel to the coffee feasibility manifold argument. Documents
+%        that topographic specificity (slope, aspect, drainage) limits
+%        actual range expansion even when thermal criteria are met.
+@article{Jones2005,
+  author    = {Jones, Gregory V. and White, Michael A. and Cooper, Owen R.
+               and Storchmann, Karl},
+  title     = {Climate Change and Global Wine Quality},
+  journal   = {Climatic Change},
+  year      = {2005},
+  volume    = {73},
+  number    = {3},
+  pages     = {319--343},
+  doi       = {10.1007/s10584-005-4704-2},
+}
+
+
+% ── ECOPHYSIOLOGY ────────────────────────────────────────────
+% USED: Introduction §1 (geographic specificity / premium value context)
+
+% ROLE: Arabica ecophysiology; documents the thermal and terrain
+%        requirements that underpin Kona's geographic identity and
+%        premium positioning.
+@article{DaMatta2007,
+  author    = {Da Matta, Fab{\'i}o M. and Ronchi, Ciro P. and
+               Maestri, Moacyr and Barros, Ricardo S.},
+  title     = {Ecophysiology of coffee growth and production},
+  journal   = {Brazilian Journal of Plant Physiology},
+  year      = {2007},
+  volume    = {19},
+  number    = {4},
+  pages     = {485--510},
+  doi       = {10.1590/S1677-04202007000400014},
+}
+
+
+% ── REMOTE SENSING / GIS INFRASTRUCTURE ─────────────────────
+% USED: Data §3.2 (Sentinel-2 NDVI extraction via GEE)
+
+% ROLE: Google Earth Engine platform paper; cited for NDVI
+%        composite extraction method.
+@article{Gorelick2017,
+  author    = {Gorelick, Noel and Hancher, Matt and Dixon, Mike and
+               Ilyushchenko, Simon and Thau, David and Moore, Rebecca},
+  title     = {Google {E}arth {E}ngine: Planetary-scale geospatial analysis
+               for everyone},
+  journal   = {Remote Sensing of Environment},
+  year      = {2017},
+  volume    = {202},
+  pages     = {18--27},
+  doi       = {10.1016/j.rse.2017.06.031},
+}
+
+
+% ── CLIMATE DATA ─────────────────────────────────────────────
+% USED: Data §3.3 (ERA5-Land baseline), Methods §4.2 (thermal envelopes)
+
+% ROLE: ERA5 global reanalysis; source of baseline temperature data
+%        used to fit thermal envelopes and project warming signals.
+@article{HersbachERA5,
+  author    = {Hersbach, Hans and Bell, Bill and Berrisford, Paul and
+               Hirahara, Shoji and Hor{\'a}nyi, Andr{\'a}s and
+               Mu{\~n}oz-Sabater, Joaqu{\'i}n and Nicolas, Julien and
+               Peubey, Carole and Radu, Raluca and Schepers, Dinand and
+               Simmons, Adrian and Soci, Cornel and Abdalla, Saleh and
+               Abellan, Xavier and Balsamo, Gianpaolo and Bechtold, Peter
+               and Biavati, Gionata and Bidlot, Jean and Bonavita, Massimo
+               and De Chiara, Giovanna and Dahlgren, Per and Dee, Dick and
+               Diamantakis, Michail and Dragani, Rossana and Flemming,
+               Johannes and Forbes, Richard and Fuentes, Manuel and Geer,
+               Alan and Haimberger, Leopold and Healy, Sean and Hogan,
+               Robin J. and H{\'o}lm, Elias and Janiskov{\'a}, Marta and
+               Keeley, Sarah and Laloyaux, Patrick and Lopez, Philippe and
+               Lupu, Cristina and Radnoti, Gabor and de Rosnay, Patricia
+               and Rozum, Iryna and Vamborg, Freja and Villaume, Sebastien
+               and Th{\'e}paut, Jean-No{\"e}l},
+  title     = {The {ERA5} global reanalysis},
+  journal   = {Quarterly Journal of the Royal Meteorological Society},
+  year      = {2020},
+  volume    = {146},
+  number    = {730},
+  pages     = {1999--2049},
+  doi       = {10.1002/qj.3803},
+}
+
+% ROLE: NASA NEX-GDDP-CMIP6 downscaled projections; source of
+%        ACCESS-CM2 and MPI-ESM1-2-HR delta-method warming signals.
+@article{Thrasher2022,
+  author    = {Thrasher, Bridget and Wang, Weile and Michaelis, Andrew and
+               Melton, Forrest and Lee, Tsengdar and Nemani, Ramakrishna},
+  title     = {{NASA} Global Daily Downscaled Projections, {CMIP6}},
+  journal   = {Scientific Data},
+  year      = {2022},
+  volume    = {9},
+  pages     = {262},
+  doi       = {10.1038/s41597-022-01393-4},
+}
+
+
+% ── GEOSPATIAL DATA PRODUCTS ─────────────────────────────────
+% USED: Data §3.1 (terrain), Data §3.4 (soils)
+
+% ROLE: USGS 3DEP DEM; source of elevation and slope data.
+@misc{USGS3DEP,
+  author       = {{U.S.\ Geological Survey}},
+  title        = {{3D} Elevation Program 1/3 Arc-Second Resolution
+                  Digital Elevation Model},
+  year         = {2020},
+  howpublished = {\url{https://www.usgs.gov/3d-elevation-program}},
+}
+
+% ROLE: source of the 674 coffee farm polygons (Data §sec:data). NOT a USGS
+% product -- commissioned by the Hawaii Dept. of Agriculture, produced by
+% UH Hilo SDAV Lab, hosted by the Hawaii Statewide GIS Program.
+@techreport{PerroyCollier2021,
+  author      = {Perroy, Ryan L. and Collier, Elizabeth},
+  title       = {2020 Update to the Hawai{\okina}i Statewide Agricultural
+                 Land Use Baseline},
+  institution = {University of Hawai{\okina}i at Hilo, Spatial Data Analysis
+                 and Visualization Laboratory, for the Hawai{\okina}i
+                 Department of Agriculture},
+  year        = {2021},
+}
+
+% ROLE: SSURGO / Web Soil Survey; source of 8 soil properties
+%        per farm cell used in topographic identity model.
+@misc{SSURGO,
+  author       = {{USDA Natural Resources Conservation Service}},
+  title        = {Web Soil Survey / Soil Survey Geographic Database
+                  ({SSURGO})},
+  year         = {2023},
+  howpublished = {\url{https://websoilsurvey.nrcs.usda.gov}},
+}
+
+% ROLE: primary source for the fixed environmental lapse rate (-6.5 C/km
+%        below the trade-wind inversion) used in the island-wide temperature
+%        surface, replacing the pooled farm-cell regression (R^2=0.01, noise).
+% VERIFIED 2026-07-26 (Simon pulled full text via AGU membership): DOI
+%        confirmed (10.1029/2019JD031571), statewide incl. Hawai'i Island,
+%        uses the ~2,150 m TWI breakpoint, elevation explains ~90% of
+%        temperature variance in their 2006-2017 spatial model (Table 1).
+%        Figure 5a labels their reference line "ELR: mean environmental
+%        lapse rate, ~6.5 C/km" (vs. DALR 9.8 C/km dry adiabatic) -- this is
+%        the exact number used in the manuscript, not just "consistent
+%        with" it. Text also gives moist adiabatic ~5.5 C/km. Sea level
+%        Tavg,z0 (statewide, Figure 3c) runs ~22-24 C over the 1905-2017
+%        record, supporting the 24.0 C sea-level reference used here
+%        (statewide series, not Kona-specific -- text in JavaScript.tex
+%        should say "statewide" not "leeward coastal").
+@article{KagawaVivianiGiambelluca2020,
+  author  = {Kagawa-Viviani, Aurora K. and Giambelluca, Thomas W.},
+  title   = {Spatial patterns and trends in surface air temperatures and
+             implied changes in atmospheric moisture across the {H}awaiian
+             {I}slands, 1905--2017},
+  journal = {Journal of Geophysical Research: Atmospheres},
+  year    = {2020},
+  volume  = {125},
+  number  = {2},
+  pages   = {e2019JD031571},
+  doi     = {10.1029/2019JD031571},
+}
+
+% ROLE: secondary source, both for the trade-wind inversion mechanism
+%        (subcloud/cloud/inversion/free-atmosphere layering) and as a
+%        direct, independently-measured below-inversion lapse rate.
+% VERIFIED 2026-07-26 (Simon pasted full text): DOI confirmed
+%        (10.3354/cr001207). Study site is Haleakala on Maui (5-station
+%        transect, 950-3,000 m), not Hawai'i Island -- caveat still stands,
+%        cite primarily for the mechanism. BUT: paper directly reports a
+%        measured lapse rate "of about 0.006 C/m [6.0 C/km] in December and
+%        May" below ~1650 m (their fog-zone/inversion contact boundary),
+%        reduced to 0.003-0.004 C/m within the inversion-influenced 1650-
+%        2130 m band. 6.0 C/km is close to the 6.5 C/km ELR figure from
+%        Kagawa-Viviani & Giambelluca (2020) above -- two independent
+%        measurements agree.
+@article{GiambellucaNullet1991,
+  author  = {Giambelluca, Thomas W. and Nullet, Dennis},
+  title   = {Influence of the trade-wind inversion on the climate of a
+             leeward mountain slope in {H}awaii},
+  journal = {Climate Research},
+  year    = {1991},
+  volume  = {1},
+  pages   = {207--216},
+  doi     = {10.3354/cr001207},
+}
+
+% ROLE: modern (250 m gridded, per-island incl. Hawai'i Island) alternative
+%        source for a defensible lapse-rate / temperature-elevation model;
+%        this is also the natural citation for the "250 m Hawai'i climate
+%        atlas" upgrade path mentioned in Methods and Limitations.
+% VERIFIED 2026-07-26: real paper, DOI confirmed (10.1029/2023EA002851).
+%        Full text paywalled; could not pull exact coefficients.
+@article{Kodama2024,
+  author  = {Kodama, Kevin M. and Kourkchi, Ehsan and Longman, Ryan J.
+             and Lucas, Matthew P. and Bateni, Sayed M. and Huang, Yi-Fan
+             and others},
+  title   = {Mapping Daily Air Temperature Over the {H}awaiian Islands From
+             1990 to 2021 via an Optimized Piecewise Linear Regression
+             Technique},
+  journal = {Earth and Space Science},
+  year    = {2024},
+  volume  = {11},
+  pages   = {e2023EA002851},
+  doi     = {10.1029/2023EA002851},
+}
+
+% Digital geologic map / lava-flow-age database used for the farmability
+% screen's historic-lava exclusion (self-review round, 2026-07-29).
+% Original map: Wolfe, E.W., and Morris, J., 1996, Geologic map of the
+% Island of Hawai'i, USGS Geologic Investigations Series I-2524-A.
+% Digital database: Trusdell, F.A., Wolfe, E.W., and Morris, J., 2006,
+% Digital database of the geologic map of the Island of Hawai'i, USGS Data
+% Series 144, https://doi.org/10.3133/ds144.
+@techreport{Trusdell2006,
+  author      = {Trusdell, Frank A. and Wolfe, Edward W. and Morris, Jean},
+  title       = {Digital Database of the Geologic Map of the {I}sland of
+                 {H}awai{\okina}i},
+  institution = {U.S. Geological Survey},
+  year        = {2006},
+  type        = {Data Series},
+  number      = {144},
+  doi         = {10.3133/ds144},
+}
+
+% Coffee berry borer development across an elevational gradient on Hawai'i Island.
+% VERIFIED 2026-07-29: PLoS ONE 14(7):e0218321, DOI resolves; fitted relation
+% generations/month = -0.0008*elev_m + 0.95 (R^2=0.89) across 204-778 m.
+@article{Hamilton2019,
+  author  = {Hamilton, Lindsey J. and Hollingsworth, Robert G. and
+             Sabado-Halpern, Mehana and Manoukis, Nicholas C. and
+             Follett, Peter A. and Johnson, Melissa A.},
+  title   = {Coffee berry borer ({Hypothenemus hampei}) ({Coleoptera}:
+             {Curculionidae}) development across an elevational gradient on
+             {Hawai}'i {Island}: Applying laboratory degree-day predictions to
+             natural field populations},
+  journal = {PLoS ONE},
+  year    = {2019},
+  volume  = {14},
+  number  = {7},
+  pages   = {e0218321},
+  doi     = {10.1371/journal.pone.0218321},
+}
+
+% Economic impact of CBB in Hawaii; also the source for arrival dates and crop value.
+% VERIFIED 2026-07-29: Insects 14(4):350, DOI resolves.
+@article{Lee2023,
+  author  = {Lee, Donna and Johnson, Melissa A. and Arist{\'i}zabal, Luis F. and
+             Shriner, Suzanne and Chan, Cathy and Miyasaka, Susan and Wall, Marisa},
+  title   = {Economic Benefits from Managing Coffee Berry Borer
+             ({Hypothenemus hampei}) in {Hawaii}},
+  journal = {Insects},
+  year    = {2023},
+  volume  = {14},
+  number  = {4},
+  pages   = {350},
+  doi     = {10.3390/insects14040350},
+}
+
+% Official state record of coffee leaf rust detection and spread in Hawaii.
+% VERIFIED 2026-07-29: first U.S. detection confirmed by USDA on Maui 30 Oct 2020;
+% present on all major Hawaiian islands by July 2021.
+@misc{HDOA2021CLR,
+  author       = {{Hawai'i Department of Agriculture and Biosecurity}},
+  title        = {Coffee Leaf Rust Information},
+  year         = {2021},
+  howpublished = {\url{https://dab.hawaii.gov/pi/main/clrinfo/}},
+  note         = {Accessed 2026-07-29},
+}
+
+@article{Ibragimov1956,
+  author  = {Ibragimov, I. A.},
+  title   = {On the composition of unimodal distributions},
+  journal = {Theory of Probability and Its Applications},
+  year    = {1956},
+  volume  = {1},
+  number  = {2},
+  pages   = {255--260},
+  doi     = {10.1137/1101021},
+}
+
+% ROLE: the correct sufficient-and-necessary condition for a kernel to preserve
+%        unimodality under convolution (log-concavity), replacing an incorrect
+%        appeal to symmetry in Proposition 1's proof sketch.

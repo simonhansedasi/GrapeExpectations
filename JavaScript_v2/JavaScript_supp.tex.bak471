@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{parskip}
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{document}
+
+\begin{center}
+    {\large\bfseries Supplementary Information}\\[6pt]
+    {\normalsize A Terrain-Thermal Convergence Framework for Agricultural
+    Climate Suitability: Evidence from Hawaiian Specialty Coffee}\\[4pt]
+    {\normalsize Simon-Hans Edasi}
+\end{center}
+
+\vspace{24pt}
+
+% ── Supplementary Figure S1 ──────────────────────────────────────────────────
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{FigS1.jpg}
+\caption{\textbf{Sensitivity of terrain classification to centroid-distance
+threshold.}
+Top row: topographic identity maps at four percentile thresholds (90th, 92.5th,
+95th, 97.5th); red border highlights the 95th-percentile baseline used throughout
+the main text.
+Bottom left: classified area as a percentage of island land at each threshold.
+Bottom right: Jaccard similarity of each threshold's classified grid relative to
+the 95th-percentile baseline.
+Jaccard similarity to the 95th-pct baseline is
+J$_{\text{Kona}} = 0.92$ / J$_{\text{Ka\okina u}} = 0.85$ at the 92.5th percentile and
+J$_{\text{Kona}} = 0.86$ / J$_{\text{Ka\okina u}} = 0.76$ at the 97.5th; it falls
+substantially at the 90th (J$_{\text{Kona}} = 0.73$, J$_{\text{Ka\okina u}} = 0.47$).
+Ka\okina u's classification is consistently the less stable of the two, which is
+expected given its centroid is estimated from only 59 farm cells: the tails of a
+distance distribution estimated from that few points are themselves unstable, and
+we do not read the drop at the 90th percentile as evidence of an ecological
+boundary.
+The Jaccard plateau between 92.5th and 97.5th percentiles shows the terrain
+\textit{classification} is stable across that range; the overestimation
+\textit{factor} (level-set definition, $\tau=0.5$; main text \S Methods) is more
+sensitive, varying $\approx$1.5$\times$ across the same window under Euclidean
+distance (8.5$\times$--5.5$\times$, Table~S1) and by more than 10-fold across the
+full 90th--97.5th sensitivity range once Mahalanobis distance is included
+(5.5$\times$--60.7$\times$). The 95th-percentile cutoff is a defensible,
+non-arbitrary choice, but the specific overestimation factor should be read as
+threshold- and metric-dependent, not a fixed constant of the system (main
+text, Methods: Topographic Feasibility Screen).}
+\label{fig:sensitivity}
+\end{figure}
+
+\newpage
+
+% ── Supplementary Table S2 ───────────────────────────────────────────────────
+
+\begin{table}[H]
+\caption{\textbf{Overestimation factor across threshold and distance-metric
+sensitivity (Ka\okina u district).}
+Level-set definition: thermal-only suitable cells are farmable island cells
+where absolute future suitability $S_r(T,\Delta T) > \tau=0.5$ (not cells where
+suitability merely increased; main text \S Methods), fixed at 6,923 (19.2\% of
+farmable island terrain under the Ka\okina u envelope, $\sim$2035). Farmable
+excludes both slope $>25$\textdegree\ and Historic (A.D.\ 1790 or younger)
+lava flows (main text \S Methods: Farmability Screen).
+Factor = thermal-only suitable cells / terrain-constrained suitable cells.
+Mahalanobis distance uses a pooled within-class covariance matrix.
+Terrain-constrained suitability is several-fold smaller than thermal-only
+suitability at every threshold and under both metrics, though an
+order-of-magnitude overestimation does not hold uniformly (Euclidean drops
+below 10$\times$ beyond the 92.5th percentile).}
+\label{tab:sensitivity}
+\vspace{6pt}
+\centering
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{\textbf{Euclidean}} & \multicolumn{2}{c}{\textbf{Mahalanobis}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+\textbf{Threshold} & \textbf{Cells} & \textbf{Factor} & \textbf{Cells} & \textbf{Factor} \\
+\midrule
+90th percentile            & 504  & 13.7$\times$ & 114 & 60.7$\times$ \\
+92.5th percentile          & 816  &  8.5$\times$ & 165 & 42.0$\times$ \\
+95th percentile (baseline) & 957  &  7.2$\times$ & 496 & 14.0$\times$ \\
+97.5th percentile          & 1{,}268 &  5.5$\times$ & 717 &  9.7$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

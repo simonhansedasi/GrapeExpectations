@@ -2,6 +2,8 @@
 
 # Terrain-Thermal Convergence Framework (TTCF)
 
+**This is the as-submitted-to-Scientific-Reports state — currently in peer review.** A 2026-07-26 review (`suggestions_claude.md`) found that the submitted lapse-rate model is a broken regression (R²=0.011, not the R²=0.73 claimed in Methods) that produces a physically impossible result in Figure 3b. Fixed version, with corrected headline numbers, is in `../JavaScript_v2/` — see that README for what changed. The error has been disclosed to the journal (`editor_correction_letter.md`, sent to srep@nature.com 2026-07-26); awaiting their reply on how to submit the correction before touching this copy — see memory `project_javascript_paper.md` for current status.
+
 This repository contains code and data for:
 
 Edasi et al. (2026) – Terrain-Constrained Suitability in Specialty Agriculture

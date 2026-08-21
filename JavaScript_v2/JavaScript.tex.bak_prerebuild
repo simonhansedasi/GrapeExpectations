@@ -1,0 +1,344 @@
+\documentclass[12pt]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage[numbers,compress]{natbib}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\newcommand{\okina}{\textquoteleft}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{url}
+\usepackage{lineno}
+\hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small Moving Windows on Fixed Ground}
+\lhead{\small Edasi (2026)}
+\rfoot{\thepage}
+
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\doublespacing
+
+% ── Document ──────────────────────────────────────────────────────────────────
+\begin{document}
+\linenumbers
+
+% ── Title ─────────────────────────────────────────────────────────────────────
+\begin{center}
+    {\LARGE\bfseries Moving Windows on Fixed Ground: Climate Adaptation as the Intersection of a Migrating Suitability Set and a Stationary Feasibility Set}
+
+    \vspace{12pt}
+
+    {\large Simon-Hans Edasi}\\[4pt]
+    Independent Researcher, GeoGastronomy Project\\[8pt]
+
+    \textbf{Corresponding author:} simonhansedasi@gmail.com\\[4pt]
+
+    \textbf{Keywords:} climate adaptation; suitability migration; feasibility constraints; hypsometry; siting; terroir; specialty agriculture
+
+    \vspace{6pt}
+    \hrule
+\end{center}
+
+\vspace{8pt}
+
+% ── Abstract ──────────────────────────────────────────────────────────────────
+\begin{center}
+\textbf{Abstract}
+\end{center}
+
+Climate change is usually framed as a change in where conditions are suitable. Where placement is constrained by something other than climate, it is better framed as a change in \textit{alignment}: a suitability window migrates while the constraint fixing where a use can go does not. We formalise adaptation space as $\mathcal{F}(\Delta T) = \mathcal{C}(\Delta T) \cap \mathcal{S}$, the intersection of a migrating suitability set with a stationary feasibility set, and show it contracts under warming even when neither set shrinks. The contraction is geometric: on a bounded landscape where area is unevenly distributed along the axis of migration, a sliding window loses more off its trailing edge than it gains at its leading edge, and loses the leading edge entirely at the boundary of $\mathcal{S}$. We demonstrate this on Hawaiian specialty coffee, where a designation of origin fixes $\mathcal{S}$ on geological timescales while $\mathcal{C}$ migrates on decadal ones. Between the 2035 and 2045 horizons the island-wide suitable area is static to within one percent---under the lower emissions pathway it grows---and the terrain footprint is unchanged, yet the intersection contracts 7--16\%, surviving every parameter setting tested. On the ground remaining, 72\% of Kona's and 77\% of Ka\okina u's mapped farm cells are on a declining thermal trajectory by 2035. A second constraint compounds the first: published degree-day development rates imply coffee berry borer generation capacity at the belt's upper margin rises by roughly a fifth to a third over the same interval, so the leading edge---the only direction adaptation can go---is itself deteriorating. Two screens moving on different timescales, not the size of any overestimation statistic, is what climate-only projections miss, and the configuration recurs wherever placement is fixed by geology, tenure, infrastructure, or designation.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+% ── 1. Introduction ───────────────────────────────────────────────────────────
+\section{Introduction}
+\label{sec:intro}
+
+The state of Hawai\okina i produces the great majority of commercially grown specialty coffee in the United States (smaller commercial production also exists in Puerto Rico and California); ``100\% Kona'' certification commands substantial wholesale price premiums, making geographic identity the foundation of economic value. The industry it supports is small but concentrated: Hawai\okina i's 2021--22 crop was valued at approximately \$113 million green and \$161 million roasted across roughly 7{,}100 bearing acres \citep{Lee2023}. That specificity is also the product's fundamental climate vulnerability: unlike commodity crops, adaptation cannot simply mean planting more acres elsewhere.
+
+Regional climate projections indicate warming of approximately $+1.0$\,\textdegree C by the 2035 epoch and $+1.35$\,\textdegree C by 2045 across the Big Island, from ensemble CMIP6 projections \citep{Thrasher2022}. For illustration, applying the literature-reported environmental lapse rate of $-6.5$\,\textdegree C\,km$^{-1}$ for the islands (below the $\approx$2{,}150\,m trade-wind inversion that structures Big Island climate; \citep{KagawaVivianiGiambelluca2020, GiambellucaNullet1991})---not the real observed climatology this paper's own analysis uses (\S\ref{sec:methods})---this warming translates to an upslope migration of the thermal optimum for \textit{Coffea arabica} of roughly 154\,m by 2035 and 208\,m by 2045: a rough scale-setting figure, not a result of the analysis below, but still a shift that represents a substantial fraction of the entire Kona production belt within the planning horizon of farms being established today.
+
+Coffee suitability assessments have generally treated temperature as the primary screen and land as uniformly available within the resulting window \citep{Bunn2015, Laderach2011, Davis2012, OvalleRivera2015}, a convention inherited from species distribution modelling, whose output is a probability surface over geographic space \citep{Hijmans2005, Elith2009, Phillips2006}. For wild species that is reasonable. For agriculture it is not: a farm requires accessible, cultivable, legally available land \citep{Foley2011}, and mechanistic niche models incorporating explicit spatial constraints \citep{Kearney2009} are rarely applied with feasibility screens in agricultural settings.
+
+The argument of this paper is a mismatch of timescales. A thermal optimum moves on decadal timescales; the terrain configuration that defines a terroir-bound crop's identity---elevation band, aspect, slope, parent material---is fixed on geological ones. Where a crop's value derives from that configuration, the optimum can migrate but the crop cannot follow it, because the land it would migrate onto is not the land that makes the product what it is. Adaptation-by-relocation, which climate-only projections implicitly offer, is therefore largely unavailable to such systems, and the constraint binds hardest exactly where geographic identity carries the most economic weight.
+
+Formally, let $\mathcal{T}_r \subseteq \mathcal{G}$ be the grid cells whose terrain falls inside region $r$'s observed agro-ecological envelope (the \textit{topographic feasibility set}) and $\mathcal{C}_r(\Delta T)$ the cells where thermal suitability $S_r$ exceeds a level under warming $\Delta T$. Climate-only assessments treat $\mathcal{C}_r$ as the adaptation opportunity; we replace it with $\mathcal{F}_r(\Delta T) = \mathcal{T}_r \cap \mathcal{C}_r(\Delta T)$, the only space satisfying both. The decisive property is that $\mathcal{C}_r$ moves and $\mathcal{T}_r$ does not, so the quantity of interest is not the size of any one intersection but its behaviour as $\Delta T$ grows. This parallels the Hutchinsonian fundamental/realized niche distinction \citep{Hutchinson1957}: $\mathcal{C}_r$ is the thermal fundamental niche, $\mathcal{F}_r$ the feasibility-constrained realized space.
+
+Masking suitability by land availability is not new: GAEZ and the crop-suitability literature routinely exclude protected, urban or non-arable land, and Ovalle-Rivera et al.\ \citep{OvalleRivera2015} caveat that upslope Colombian terrain may not be convertible. What that literature does not supply is a screen anchored to the \textit{specific} configuration a designation of origin refers to, at the scale a district occupies. A generic arability mask asks whether land can grow coffee; this screen asks whether land is \textit{Kona-shaped}. Eight topographic descriptors plainly do not exhaust what being Kona means---there is no hydrological variable, and Ka\okina u at 700--900\,mm is marginal for unirrigated Arabica---but they are nearer the question the price premium is denominated in.
+
+Applied to the Big Island, this framework asks not ``where is the temperature right?'' but ``where is the temperature right \textit{and} the terrain actually coffee-country?'' The answer is spatially compact, and---contrary to the expectation that two districts on opposite flanks of the same volcano face opposite fates---closely similar for both producing districts, which turn out to be thermally indistinguishable and to differ only in where their fixed terrain happens to sit.
+
+% ── 2. Study Area ─────────────────────────────────────────────────────────────
+\section{Study Area}
+\label{sec:studyarea}
+
+The Island of Hawai\okina i is a shield volcano rising to 4{,}205\,m at Mauna Kea. Its geometry creates dramatic climatic gradients over short distances: the windward northeast receives over 5{,}000\,mm of annual rainfall at mid-elevations, while the leeward west and south flanks are substantially drier. Over 94\% of the island's land surface has slopes below 25\textdegree, reflecting the low-gradient basaltic shield; slope alone rarely bars cultivation in the way it would in a faulted or dissected mountain landscape---the constraint that binds here is agro-ecological terrain-matching (elevation band, aspect, parent material), not access to farmable gradient.
+
+Two coffee-producing districts occupy distinct niches on this terrain (Figure~\ref{fig:studyarea}). \textbf{Kona} farms (592 polygons, $\approx$4{,}800\,acres) cluster on the leeward west slope of Mauna Loa at 106--923\,m (farm-cell mean 493.5\,m, $\sigma=159.0$\,m, $n=409$), where afternoon orographic clouds moderate peak temperatures and annual rainfall averages 1{,}200--2{,}000\,mm. Its topographic profile is tightly constrained: a compact north-south corridor of west-facing slopes with moderate relief and low coastal distance. \textbf{Ka\okina u} farms (82 polygons, $\approx$1{,}200\,acres) occupy a south-facing terrace at 252--740\,m (farm-cell mean 524.2\,m, $\sigma=114.6$\,m, $n=62$) with a drier, more variable climate (700--900\,mm) and deep Andisols derived from Mauna Loa basalt. Ka\okina u's broader elevation range and greater aspect diversity produce a topographic signature distinct enough that the two districts occupy well-separated regions of standardised terrain-feature space (\S\ref{sec:methods:topo}).
+
+Their thermal niches, however, overlap almost completely. Gaussian envelopes fitted to each district's farm cells from observed temperature give $\mu_{\text{Kona}} = 21.00$\,\textdegree C ($\sigma_{\text{Kona}} = 1.37$\,\textdegree C, $n=409$) and $\mu_{\text{Ka'u}} = 20.82$\,\textdegree C ($\sigma_{\text{Ka'u}} = 1.04$\,\textdegree C, $n=62$). Ka\okina u is the cooler of the two by $0.18$\,\textdegree C, not distinguishable from zero (Welch $t = -1.78$, $p = 0.079$; 95\% CI $-0.37$ to $+0.02$\,\textdegree C, on uninflated within-district SDs $s = 0.914$ and $0.694$\,\textdegree C). Nor is it an independent thermal fact: temperature within the belt is a function of elevation to within $0.032$\,\textdegree C (\S\ref{sec:methods:thermal}), Ka\okina u's farms sit $30.7$\,m higher, and $30.7$\,m at $-5.721$\,\textdegree C\,km$^{-1}$ is $0.176$\,\textdegree C---the observed difference. These are the same thermal population sampled about thirty metres apart. The districts diverge only once each envelope meets its own footprint.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.60\textwidth]{Fig1.jpg}
+\caption{\textbf{Study area.} Coffee farm polygons (orange) from the 2020 Hawai\okina i Statewide Agricultural Land Use Baseline \citep{PerroyCollier2021}. The Kona belt occupies the leeward west flank of Mauna Loa (upper cluster, 592 polygons); Ka\okina u farms sit on the south-facing terrace (lower cluster, 82 polygons). The 674 polygons totalling $\approx$6{,}000\,acres are the full mapped commercial coffee-farm footprint on the Big Island in this dataset---not a claim about the U.S.\ specialty coffee industry as a whole, which includes substantial acreage (e.g.\ Kaua\okina i Coffee, $\approx$3{,}800\,acres) outside it.}
+\label{fig:studyarea}
+\end{figure}
+
+% ── 3. Results ────────────────────────────────────────────────────────────────
+\section{Results}
+
+\subsection{The Terrain Footprint Is Small and Does Not Move}
+\label{sec:results:terrain}
+
+The island-wide topographic identity map (Figure~\ref{fig:identity}) reveals the pre-existing structure of geographic constraint. Kona-like terrain (blue) forms a compact linear corridor on the west leeward flank at 150--950\,m; Ka\okina u-like terrain (red) concentrates on the south-facing terrace (185--895\,m) with limited extension onto adjacent elevated terrain. The combined topographic footprint covers only 14.8\% of island land (Kona 5.9\%, Ka\okina u 8.9\%); the remaining 85.2\% lacks the agro-ecological signature of either district. Because assignment is by nearer centroid subject to a distance cutoff, the two footprints are non-overlapping by construction and their sum is arithmetic, not an empirical finding.
+
+What matters for what follows is not the size of this footprint but its fixity. Every feature defining it---elevation, elevation deviation, maximum slope, aspect, total and local relief, coastal distance---is a property of the volcano's constructional history, and none respond to a decadal warming signal. Mauna Loa's west flank will present the same slope, aspect and elevation band in 2045; what changes is which part of it is at the right temperature. Figure~\ref{fig:identity} is therefore the fixed domain into which every projection below must be read.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.78\textwidth]{Fig2.jpg}
+\caption{\textbf{Topographic identity map.} Each 500\,m island land cell scored by Euclidean distance in standardised 8-feature terrain space to the Kona (blue) and Ka\okina u (red) farm centroids. Cells outside the 95th-percentile centroid-distance threshold for both regions are shown in grey. Only 5.9\% of island land is Kona-like and 8.9\% is Ka\okina u-like---the terrain domain into which all thermal projections must be read. Sensitivity across threshold choices is reported in Supplementary Fig.~S1.}
+\label{fig:identity}
+\end{figure}
+
+\subsection{The Thermal Optimum Migrates Upslope (and What That Statistic Is Not)}
+\label{sec:results:thermal}
+
+Figure~\ref{fig:thermal} shows thermal suitability change across the full farmable island surface, evaluated by regional envelope without applying the terrain screen. Under the Kona envelope, 71.2\% of farmable cells gain thermal suitability by 2035 (69.8\% by 2045); under the Ka\okina u envelope, 69.8\% gain by 2035 (68.4\% by 2045). Because the two envelopes' optima are statistically indistinguishable (\S\ref{sec:studyarea}), the climate-only trajectories are nearly indistinguishable at the island-wide scale shown here---the districts diverge only once each is restricted to its own terrain footprint (\S\ref{sec:results:overestimation}).
+
+These fractions are close to a statement about hypsometry rather than climate. Since $\Delta S_r > 0 \iff T < \mu_r - \Delta T_h/2$ and temperature within the belt is a function of elevation (\S\ref{sec:methods:thermal}), each is equivalent to an elevation contour: gain under the Kona envelope at 2035 means $z \gtrsim 583$\,m, and the two classifications agree on 99.9\% of farmable cells (Ka\okina u 2035 and Kona 2045 both $614$\,m, Ka\okina u 2045 $644$\,m; agreement $\geq$99.8\% throughout). ``Roughly 70\% of farmable land gains'' is, to within a percent, ``roughly 70\% of farmable land lies above $\approx$580--645\,m.'' We report it because it is what a climate-only assessment produces, and the contrast with the terrain-restricted result is the paper's subject.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{Fig3A.jpg}
+    \caption{Kona thermal envelope ($\mu = 21.00$\,\textdegree C, $\sigma = 1.37$\,\textdegree C). 71.2\% of farmable cells gain thermal suitability by $\sim$2035, easing to 69.8\% by $\sim$2045.}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\textwidth]{Fig3B.jpg}
+    \caption{Ka\okina u thermal envelope ($\mu = 20.82$\,\textdegree C, $\sigma = 1.04$\,\textdegree C). 69.8\% of farmable cells gain by $\sim$2035, easing to 68.4\% by $\sim$2045. Topographic screen not applied.}
+\end{subfigure}
+\caption{\textbf{Thermal suitability change by $\sim$2035 across the full farmable island surface ($\Delta T \approx +1.00$\,\textdegree C; reference increment; model ensemble ACCESS-CM2 $\times$ MPI-ESM1-2-HR. Scenario-specific results in Supplementary Table~S2).} Red = increased thermal alignment; blue = reduced alignment. Grey = slope $>25$\textdegree. These maps represent the climate-only, direction-of-change view: for both districts alike, restricting to actual terrain and a genuine absolute suitability threshold reduces accessible thermal opportunity 4- to 8-fold (\S\ref{sec:results:overestimation}). Compare with Figure~\ref{fig:convergence}.}
+\label{fig:thermal}
+\end{figure}
+
+\subsection{What Remains: The Feasible Set Under Warming}
+\label{sec:results:convergence}
+
+Applying the topographic screen collapses the apparent thermal opportunity into a much smaller feasible domain, and the same pattern appears in both districts (Figure~\ref{fig:convergence}): screened cells are predominantly declining at the lower, coastal-facing portion of the belt---where most existing farms sit---with a gaining fringe concentrated at the upper elevation margin. Overall, 69.0\% of Kona-like farmable terrain is on a declining thermal trajectory by 2035 (71.7\% by 2045) and 59.3\% of Ka\okina u-like terrain (63.9\%); the remainder gains, in that upper fringe.
+
+Ka\okina u's declining majority is the smaller of the two, but it is the one result here that does not survive a change of distance metric: under the Mahalanobis screen the 2035 declining fractions fall to 57.7\% (Kona) and 50.3\% (Ka\okina u), making Ka\okina u a near-even split. The ordering survives---Kona's declining majority is the larger under either metric---but the margin does not. The farm-cell fractions are far less sensitive, since the two metrics exclude a different 5\% of cells but not a different part of the belt. We report the difference and do not build on it.
+
+The central result concerns land that is actually farmed rather than land merely matching the terrain profile. Farms are not spread uniformly across their footprints---Kona's concentrate in the lower, warmer portion where the optimum departs first, and Ka\okina u's footprint (185--895\,m) extends both above and below its farms (252--740\,m)---so either way farm cells decline faster than the terrain containing them. On the 409 labelled Kona farm cells \textbf{72.1\%} are on a declining thermal trajectory by 2035 (95\% CI 65.8--78.0) and \textbf{78.5\%} by 2045 (72.6--84.9); for Ka\okina u's 62 cells, \textbf{77.4\%} (56.5--93.9) and \textbf{85.5\%} (65.0--98.8). Ka\okina u's intervals are wide because its cells form about eight independent spatial blocks; each replicate refits the standardiser, both centroids and the 95th-percentile distance cutoff, so the intervals carry threshold uncertainty rather than inheriting the point estimate (\S\ref{sec:methods:uncertainty}). Per emissions pathway the 2035 figures span 64--79\% and 69--86\%, identical in direction (Supplementary Table~S2). Weighting each cell by the coffee area it contains---cells differ in planted area, so naive acreage conversion is biased---gives 68.0\% and 81.8\% at 2035 and 74.7\% and 90.4\% at 2045, the two districts moving oppositely because Kona's larger cells sit higher in the belt (510 against 494\,m) and Ka\okina u's lower (519 against 524\,m). That is roughly 3{,}265 of Kona's $\approx$4{,}800 farmed acres and 982 of Ka\okina u's $\approx$1{,}200. Because cells are labelled by farm-centroid overlap, 32\% of mapped coffee acreage falls outside a labelled cell; those polygons are not elevation-biased (446\,m against 452\,m for captured polygons, Welch $p = 0.52$; 486 against 504\,m acre-weighted), so the omission is a grid-resolution artefact rather than a belt-edge one.
+
+That upper fringe is the only direction the optimum is moving, and it does not extend further upslope: beyond it the slope steepens onto the volcano's upper constructional flanks, aspect and relief depart from the observed farm envelope, and substrate ages fall away. Warming does not open new coffee country; it relocates the favourable band within a fixed one, and the band is running out of footprint.
+
+\subsection{The Contraction Mechanism: A Sliding Band on a Fixed Footprint}
+\label{sec:results:contraction}
+
+The terrain footprint is fixed (\S\ref{sec:results:terrain}) and the thermally favourable band moves (\S\ref{sec:results:thermal}). Put together, they give the paper's central claim, and the one result that survives every robustness check below.
+
+Because temperature is effectively a function of elevation within the belt (\S\ref{sec:methods}), the mechanism admits an explicit one-dimensional statement. At $\tau = 0.5$ the level set is $|T + \Delta T - \mu_r| < \sqrt{2\ln 2}\,\sigma_r$, a band of fixed width in temperature and therefore---at $-5.72$\,\textdegree C\,km$^{-1}$---of fixed width in elevation: $\pm282$\,m for Kona, $\pm214$\,m for Ka\okina u. Warming translates it upslope by $\Delta T / 5.72$\,km without changing its width while the footprint stays put, so the feasible set is the overlap of a sliding interval with a fixed one. For Kona (footprint $150$--$950$\,m) the band runs $388$--$952$\,m at $+1.00$\,\textdegree C and $449$--$1{,}014$\,m at $+1.35$\,\textdegree C; clipped, the overlap falls from $562$ to $501$\,m, a predicted contraction of $10.9\%$. For Ka\okina u the same construction predicts $15.0\%$.
+
+The full two-dimensional analysis returns $-15.5\%$ for Kona and $-12.4\%$ for Ka\okina u. Real terrain therefore contributes $-4.7$ percentage points for Kona and $+2.6$ for Ka\okina u, from hypsometry---on a shield volcano equal elevation intervals do not contain equal area---and from footprint shape. The interval model captures the sign and roughly two-thirds of the magnitude but \textit{reverses} the ordering between districts, which is why the two-dimensional computation is not redundant with it.
+
+What happens between the two horizons states this most clearly. Island-wide, the thermally suitable area is essentially unchanged from 2035 to 2045---down 0.6\% under the Kona envelope, \textit{up} 0.5\% under Ka\okina u's---and the terrain set does not change at all. Yet their intersection contracts by 15.5\% (Kona, 1{,}371 to 1{,}158 cells) and 12.4\% (Ka\okina u, 1{,}839 to 1{,}611). Neither input shrinks; the intersection does, because the moving set is sliding off the stationary one. The pattern is starker under the lower pathway: under SSP2-4.5 the island-wide thermal set \textit{grows} between horizons ($+0.6\%$ Kona, $+1.1\%$ Ka\okina u) while the intersection contracts ($-7.9\%$, $-5.6\%$); under SSP5-8.5 the thermal set is flat and the intersection contracts far harder ($-17.4\%$, $-20.0\%$; Supplementary Table~S2). More thermally suitable land island-wide, less usable land inside the districts. Thermal opportunity elsewhere cannot compensate, because it is not on terrain that is Kona or Ka\okina u.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth, height=0.82\textheight, keepaspectratio]{Fig4.jpg}
+\caption{\textbf{The feasible set under warming.} Top: $\sim$2035 ($\Delta T \approx +1.00$\,\textdegree C); bottom: $\sim$2045 ($+1.35$\,\textdegree C). Only cells passing the 95th-percentile topographic screen are coloured, each receiving the thermal change matched to its district envelope. Mid-grey: farmable terrain outside both profiles. Light grey: non-farmable (slope $>25$\textdegree\ or Historic lava). The coloured footprint is the feasible set $\mathcal{F}_r$; its contraction between panels, against an unchanged terrain envelope and a static island-wide thermal set, is the paper's central result (\S\ref{sec:results:contraction}).}
+\label{fig:convergence}
+\end{figure}
+
+\subsection{Why We Report the Multiplier Only as a Sign}
+\label{sec:results:overestimation}
+
+A single ratio---thermally suitable area over terrain-constrained suitable area---is the obvious summary statistic, and we report it for completeness because a reader will otherwise compute it. It should not be read as a measurement. At $\tau = 0.5$ and the 95th-percentile threshold it is $6.9\times$ for Kona (95\% CI 6.3--9.1) and $3.9\times$ for Ka\okina u (3.2--8.6), but it spans $3.2\times$--$20.7\times$ for Ka\okina u across defensible threshold and distance-metric choices (Supplementary Table~S1), and per scenario runs $6.1$--$8.3\times$ and $3.5$--$4.6\times$ (Supplementary Table~S2).
+
+Two results explain why. First, the ratio decomposes into a suitability rate times the inverse terrain fraction: $6.9 = 0.468 \times 14.7$ for Kona and $3.9 = 0.342 \times 11.3$ for Ka\okina u, so most of its magnitude is the terrain fraction---an input from the farm polygons, not a finding. Second, a null distribution of 2{,}000 draws stratified to reproduce each district's elevation histogram---farmable cells drawn bin by bin to match that histogram exactly, everything else randomised---reproduces the observed value to within two parts in a thousand: Kona $6.87\times$ against a null median of $6.88\times$, Ka\okina u $3.88\times$ against $3.88\times$. Since temperature within the belt is a function of elevation to within $0.032$\,\textdegree C, that near-identity is close to a restatement of the same fact. The multiplier measures the elevation distribution of whatever terrain is screened, not a property of Kona or Ka\okina u, and an earlier reading of a size-matched null as evidence that these districts are unusually well sited does not survive the elevation-matched construction.
+
+Matching shape as well as size changes nothing. Kona's footprint is a $3.8{:}1$ corridor and Ka\okina u's a $1.7{:}1$ terrace; drawing 2{,}000 patches of the same area \textit{and} the same elongation, at random locations and bearings, puts the observed multiplier at the low edge of the null rather than above it (Kona $6.87\times$ against a shape-matched null median of $14.9\times$, exceeded by 95\% of draws; Ka\okina u $3.88\times$ against $10.1\times$, exceeded by 100\%). Random patches score \textit{worse} because they land on elevation distributions that miss the suitable band. Neither the districts' size, their shape, nor their placement makes the multiplier what it is---their elevation histogram does.
+
+The district difference is likewise a width effect rather than a position effect. At $\tau = 0.5$ the level set spans $\pm 1.1774\,\sigma_r$, which is $1.61$\,\textdegree C for Kona against $1.22$\,\textdegree C for Ka\okina u; that ratio of $1.32$ matches the ratio of exceedance rates ($26.1/19.8 = 1.32$) to three digits, while the $0.18$\,\textdegree C difference in $\mu_r$ is worth about $32$\,m of elevation and contributes almost nothing.
+
+% ── 4. Discussion ─────────────────────────────────────────────────────────────
+\section{Discussion}
+
+A thermal optimum that migrates upslope is only an adaptation opportunity if there is upslope land the crop can occupy. For a terroir-bound crop there generally is not, because the terrain configuration defining the product is fixed on a timescale orders of magnitude longer than the one on which the optimum moves. Nothing shrank except the alignment between a set that moves and a set that cannot.
+
+Wherever cultivable terrain is spatially structured---confined to specific soils, aspects, parent materials or slope configurations---climate-only projections will overstate accessible adaptation space, as previous work has noted without quantifying \citep{Bunn2015, OvalleRivera2015}. The degree of overestimation scales with the geographic specificity of the terrain requirement, which in orographic specialty crop systems is extreme. Both districts face the same version of this: their thermal optima are indistinguishable, so a shared warming signal produces nearly identical island-wide trajectories, and what differs is a terrain geometry that in neither case leaves room to expand. The thermal window shifts for both; the geomorphological door widens for neither.
+
+The convergence map (Figure~\ref{fig:convergence}) translates this into planning terms. For both districts the priority is thermal resilience inside the existing footprint---shade management, higher-tolerance variety trials, and monitoring at the upper fringe where the intersection remains positive through 2035--2045. The map identifies those fringe cells explicitly, as priority sites for agronomic intervention rather than confirmed relocation targets (\S\ref{sec:discussion:limits}). Non-farmed, topographically matched, thermally-gaining cells are candidates for feasibility studies only after terrain, soil and access screening---thermal trajectory second, not first.
+
+The economic stakes follow from the geometry and fall on existing production. Roughly 72\% of Kona's and 77\% of Ka\okina u's farm cells are on a declining trajectory by 2035, area-weighted to 68\% and 82\%, against a 2021--22 crop valued at $\approx$\$113 million green \citep{Lee2023}. Because ``100\% Kona'' certification prices geographic identity, resilience in place---shade management, heat-tolerant varieties---is the primary option rather than one of several; relocation is constrained by the same fixed footprint that produces the contraction. A planner reading the unscreened projection sees roughly 70\% of farmable island land improving, which is a statement about the island's hypsometry rather than about accessible ground.
+
+One biotic constraint lies outside this framework and acts specifically on the terrain the analysis identifies as gaining. Coffee berry borer (\textit{Hypothenemus hampei}) reached Kona in September 2010 and Ka\okina u in May 2011, and in the two following seasons was associated with an estimated \$25.7 million in lost sales and a statewide yield decline near 20\% \citep{Lee2023}. \citet{Hamilton2019} estimate its development on Hawai\okina i Island at $332$ degree-days per generation above a lower threshold of $14.9$\,\textdegree C. Applying that model to the temperature surface used here---rather than to their fitted generations-versus-elevation regression, which would require extrapolating past its 778\,m upper sampling limit---reproduces their observed field rates across the belt (0.71 generations per month at 204\,m falling to 0.41 at 778\,m, against their observed range of 0.33--0.78) and puts 2.5--3.1 generations in a July--December berry window at 600--780\,m, inside the 2.11--3.27 they report. Under the increments used here the same model implies generation-capacity increases of roughly 18\% at 600\,m and 23\% at 800\,m by 2035, and 25\% and 31\% by 2045. The proportional increase is largest where the current rate is lowest---the upper margin this analysis identifies as the only gaining terrain. The fringe that gains thermal suitability gains pest pressure fastest, and one warming signal drives both.
+
+Coffee leaf rust (\textit{Hemileia vastatrix}) is a differently structured omission. Confirmed on Maui on 30 October 2020---the first United States detection---it was present on all major Hawaiian islands within nine months \citep{HDOA2021CLR}, postdating the baseline period used here. Its infection requirement is free moisture on the leaf rather than a temperature threshold, and this analysis does not project precipitation, so it sits outside the model in a way no thermal screen can capture; the upper fringe's higher cloud and moisture exposure is a plausible aggravating factor rather than a mitigating one.
+
+Neither constraint undermines the structural argument---a fixed footprint still cannot track a moving optimum---but together they bound how the gaining fringe should be read: as \textit{thermally} favourable terrain, not as an agronomic refuge. Joint modelling of pest and pathogen pressure alongside the two screens is the single most valuable extension of this work.
+
+\label{sec:discussion:limits}The most consequential limitation is quantified in \S\ref{sec:methods:thermal}: within the belt the temperature field is a function of elevation to within $0.032$\,\textdegree C, and the terrain screen uses elevation, so the two screens are not independent. Everything downstream inherits this. The finding that the gaining fraction concentrates at the upper margin cannot be separated from the fact that moving upslope also moves a cell away from its district's elevation centroid: the analysis can show that the favourable band migrates while the envelope does not, but not that any particular upper-fringe cell is a genuine refuge. Resolving that needs a screen built on non-elevation descriptors, or a thermal field with more non-elevation structure than $0.032$\,\textdegree C. Precipitation is not projected independently, and Hawaiian precipitation projections carry wider model spread than temperature. The screen contains no hydrological, tenure or access variable, so cells passing it may be unavailable for reasons outside the model. None of this alters the geometry; it bounds how precisely the result can be located.
+
+The configuration generalises. Write $\mathcal{F}(\Delta T) = \mathcal{C}(\Delta T) \cap \mathcal{S}$, with $\mathcal{S}$ any constraint on where a use can physically be placed. Three conditions suffice for the contraction reported here: $\mathcal{C}$ migrates along some axis, $\mathcal{S}$ is fixed on a longer timescale than that migration, and area is unevenly distributed along the axis within $\mathcal{S}$. Nothing in that list is specific to temperature, elevation, or coffee. Designation-of-origin viticulture satisfies it with geology as $\mathcal{S}$; conservation reserves with tenure and reserve boundaries; irrigated systems with water conveyance; forestry with rotation length against soil and tenure; any fixed infrastructure sited for a climate envelope with its own footprint. In each case the quantity of interest is not how much land becomes climatically suitable but how long the window and the constraint stay in register, and what happens at the leading edge when they cease to. Coffee is a useful demonstration because both sets are independently measurable and a designation of origin makes $\mathcal{S}$ unusually explicit---written into the product's definition rather than inferred. Ovalle-Rivera et al.\ \citep{OvalleRivera2015} project Colombian Arabica shifting 500--1{,}300\,m upslope and note that converting that terrain is uncertain on soil and access grounds: the same configuration with $\mathcal{S}$ unmeasured. Ethiopian highland Arabica on Afromontane terrain is another \citep{Davis2012}.
+
+% ── 5. Conclusions ────────────────────────────────────────────────────────────
+\section{Conclusions}
+
+Terrain is fixed on geological timescales; a thermal optimum moves on decadal ones. Where a crop's identity---and its price---is bound to a particular terrain configuration, that mismatch means the optimum can migrate but the crop cannot follow it.
+
+Hawaiian coffee makes the mismatch legible because both sides can be measured. Only 5.9\% of the Big Island carries Kona's terrain signature and 8.9\% carries Ka\okina u's, and those footprints belong to the volcano, not the climate. Against them the thermally suitable area island-wide is static between 2035 and 2045---down 0.6\% under one envelope, up 0.5\% under the other's---while the intersection contracts by 15.5\% and 12.4\%, produced entirely by the two sets sliding out of register. The loss falls hardest on land already in production. A climate-only reading of the same warming would report roughly 70\% of farmable island land improving, a figure very nearly a restatement of how much of the island lies above 600\,m.
+
+The convergence map (Figure~\ref{fig:convergence}) is the resulting decision surface---not where coffee might theoretically exist under future temperatures, but where it can. Both districts are constrained in the same way and to a similar degree: one problem with two local expressions, not two problems.
+
+Under warming the question is not how much land becomes climatically suitable, but how long the suitable band and the constraint that fixes placement remain in register, and what happens when they separate. That is a question about the intersection of a moving set with a fixed one, and a thermal projection alone cannot answer it.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+% ── 6. Methods ────────────────────────────────────────────────────────────────
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Data}
+\label{sec:data}
+
+\subsubsection{Geospatial Grid and Farm Boundaries}
+
+Farm boundaries were sourced from the 2020 Hawai\okina i Statewide Agricultural Land Use Baseline \citep{PerroyCollier2021} (674 coffee polygons, $\approx$6{,}000\,acres total), projected to UTM Zone~4N and intersected with a 500\,m grid to yield 471 grid cells labelled by farm-centroid overlap. All 471 cells (Kona $n = 409$, Ka\okina u $n = 62$) are used throughout the analysis below. The two quantities estimated from the farm sample---the topographic centroids (\S\ref{sec:methods:topo}) and the thermal envelope parameters (\S\ref{sec:methods:thermal})---require only each cell's terrain features, sampled from the island DEM, and its temperature, sampled from the gridded climatology; both are available for all 471 cells.
+
+No cell is excluded for missing SSURGO texture (which enters no feature set used here) or for missing ERA5-Land extraction. The latter matters: ERA5-Land's $\approx$9\,km mask does not resolve the Kona coastal strip, and the 86 affected cells returned no data in any of 108 monthly composites. They are not a random subset but the low, warm seaward margin of the belt (327\,m and 21.9\,\textdegree C against 535\,m and 20.8\,\textdegree C for the rest; $p<10^{-5}$)---the population most relevant to where farms sit relative to their optimum. The 250\,m climatology resolves them, and ERA5-Land now supplies only an island-wide $\Delta T$.
+
+\subsubsection{Terrain Features}
+
+Elevation data from the USGS 3D Elevation Program (3DEP) 1/3 arc-second DEM \citep{USGS3DEP} were mosaic-merged across three tiles and average-resampled to 500\,m. Eight topographic features were computed per cell: mean elevation, elevation standard deviation, maximum slope, aspect sine, aspect cosine, total relief, local relief, and distance to coastline.
+
+\subsubsection{Climate}
+
+Baseline climate was sourced from ERA5-Land daily reanalysis \citep{HersbachERA5}, aggregated to 18 annual and seasonal features for 2017--2025. Future projections used delta-method bias correction applied to ACCESS-CM2 and MPI-ESM1-2-HR under SSP2-4.5 and SSP5-8.5, obtained from the NASA NEX-GDDP-CMIP6 archive \citep{Thrasher2022}, for 20-year windows centred on 2035 and 2045. Model-ensemble means within each scenario are $\Delta T_{2035} = +0.60$\,\textdegree C and $\Delta T_{2045} = +0.92$\,\textdegree C under SSP2-4.5, and $+1.41$ and $+1.78$\,\textdegree C under SSP5-8.5.
+
+SSP2-4.5 and SSP5-8.5 are alternative forcing pathways, not ensemble members, so all headline quantities are reported per scenario (Supplementary Table~S2), with model-ensemble averaging retained within each. Maps are shown at reference increments of $+1.00$ and $+1.35$\,\textdegree C, which bracket the 2035 and 2045 scenario range.
+
+$\Delta T$ is applied uniformly in space, a constraint of the source data: NEX-GDDP-CMIP6 is distributed on a $0.25$\textdegree\ grid on which the whole island falls within essentially one cell, and the extracted $\Delta T$ is identical to four decimal places across all farm cells. Uniformity still warrants scrutiny, since elevation-dependent warming is documented in Hawai\okina i---but its strongest signal sits at the trade-wind inversion near $2{,}150$--$2{,}225$\,m \citep{KagawaVivianiGiambelluca2020}, well above a 200--950\,m belt. Imposing $\Delta T(z) = \Delta T_0 + g(z-\bar{z})$ and sweeping $g$ from 0 to $2$\,\textdegree C\,km$^{-1}$ steepens the contraction monotonically (Kona $-15.5$ to $-22.3\%$, Ka\okina u $-12.4$ to $-22.8\%$), so uniform $\Delta T$ is the conservative assumption.
+
+\subsubsection{Surficial Geology}
+\label{sec:data:geology}
+
+Lava-flow age was sourced from the digital geologic database of the Island of Hawai\okina i \citep{Trusdell2006}, which digitises the underlying 1:100{,}000 geologic map of Wolfe and Morris (USGS Geologic Investigations Series I-2524-A, 1996); we used the National Park Service Geologic Resources Inventory shapefile reformatting of that database, comprising 6{,}141 mapped rock-unit polygons joined to their legend entries by unit symbol. Polygons mapped as ``Historic A.D.\ 1790 or younger''---the youngest, least-weathered substrate, including the 1859 and 1950 Mauna Loa flows and the bulk of Kīlauea's recent output---were rasterised onto the same 500\,m UTM grid as the island DEM (\S\ref{sec:methods:farmability}).
+
+\subsection{Topographic Feasibility Screen}
+\label{sec:methods:topo}
+
+Eight topographic features (\S\ref{sec:data}) were standardised using a \texttt{StandardScaler} fitted on the 471 labelled farm cells, and regional centroids were computed as the mean standardised feature vector for each district. The feature set---elevation mean, elevation standard deviation, maximum slope, aspect sine, aspect cosine, total relief, local relief, and coastline distance---captures the primary axes of topographic variation that distinguish cultivated terrain on the Big Island: elevation band, slope, aspect orientation, landscape roughness, and coastal proximity. For each island cell, Euclidean distance to each centroid was converted to a continuous similarity score:
+\[
+    s_r = \frac{1}{1 + d_r}, \quad r \in \{\text{Kona},\; \text{Ka\textquoteleft u}\}
+\]
+A topographic identity score $\text{identity} = s_{\text{Ka'u}} - s_{\text{Kona}}$ assigns each cell to the closer regional profile: positive values indicate Ka\okina u-like terrain, negative values indicate Kona-like terrain. Because $s_r = 1/(1+d_r)$ is monotone in $d_r$, this score changes no assignment that the raw distances would not also make; only its sign is interpreted. Its magnitude is a compressed, non-linear function of a distance difference and carries no units, so the numerical values on the Figure~\ref{fig:identity} colour scale should be read as an ordering rather than as a measured quantity.
+
+Euclidean distance is used because the objective is domain bounding, not probabilistic classification: the screen asks whether a cell falls inside the cloud of observed farm terrain. Standardisation removes scale differences; the remaining correlation structure is treated as co-occurring terrain constraints rather than redundancy to be decorrelated. Repeating the analysis under Mahalanobis distance with a pooled within-class covariance gives a smaller Ka\okina u footprint (3.72 vs.\ 8.90\% of island land) and, at the baseline threshold, a larger multiplier (11.3$\times$ vs.\ 3.9$\times$); the two converge as the threshold widens (Supplementary Table~S1). Kona is barely affected either way---its footprint moves 5.95 to 6.28\% and its multiplier 6.9 to 7.3$\times$---so the metric sensitivity is specific to Ka\okina u's more correlated feature set. Both agree that terrain-constrained suitability is several-fold smaller than thermal-only suitability at every threshold, which is the only conclusion we draw from either.
+
+This defines a feasibility constraint: terrain unlike existing farms is excluded from suitability scoring regardless of thermal conditions. The screen captures realized agro-ecological structure, not the full fundamental niche, and is intended as a constraint on economically and operationally viable expansion, not biological possibility. The framework is not a predictive classifier of suitability, but a constraint on the geographic domain over which suitability can be meaningfully evaluated. Stability of the classification under threshold perturbation (Supplementary Fig.~S1) is a robustness check, not a validation: it establishes that the screen is insensitive to the cutoff, not that it identifies terrain capable of supporting coffee. An out-of-sample test is reported in \S\ref{sec:methods:kauai}.
+
+Cells whose distance to the nearer centroid exceeds the 95th percentile of within-region farm-to-centroid distances are excluded, a boundary of observed agro-ecological coherence rather than a statistical cutoff. Across a 90th--97.5th percentile sweep the footprint stays small (5.0--11.0\% of island land classifying as Ka\okina u-like) and Jaccard similarity to the baseline stays above 0.79 except at the 90th percentile, where Ka\okina u---whose centroid rests on 62 cells---destabilises (Supplementary Fig.~S1, Table~S1). At the baseline, 5.9\% of island land classifies as Kona-like and 8.9\% as Ka\okina u-like; the remaining 85.2\% shares neither signature.
+
+\subsection{Out-of-Sample Behaviour}
+\label{sec:methods:kauai}
+
+Two tests bound how far the screen transfers. Applied unchanged to Kaua\okina i --- same DEM product, grid and features, an island never seen in fitting --- it classifies 224 of 5{,}986 land cells and recovers \textit{none} of the 61 cells containing mapped coffee. The failure is substantive: Kaua\okina i's coffee sits at 84\,m on 7\textdegree\ slopes against Kona's 494\,m and 19\textdegree. The screen identifies Kona- and Ka\okina u-like terrain, not coffee-growing terrain, which is the expected behaviour of an identity-anchored screen rather than an arability mask, and is evidence that ``coffee country'' is not one terrain signature.
+
+The claims in this paper depend instead on generalising to Kona-like ground not fitted on. Holding out contiguous latitude bands of the belt and refitting standardisation, centroids and threshold on the remainder recovers a mean 86\% of held-out farm cells against a 94.9\% in-sample reference --- but unevenly, running 100, 38, 94, 100 and 100\% across five folds. The screen extends along the belt on average, not uniformly, so nominations of specific upper-fringe cells (\S\ref{sec:results:convergence}) are not uniform-confidence predictions. Both tests are detailed in Supplementary Note~S2.
+
+\subsection{Thermal Envelope Model}
+\label{sec:methods:thermal}
+
+Island-wide temperature comes from the Kodama et al.\ \citep{Kodama2024} Hawai\okina i climate atlas, a 250\,m gridded monthly product built from the Hawai\okina i Climate Data Portal's spatial modelling framework. We averaged all 384 monthly mean-temperature rasters (1990--2021) into one climatological mean and reprojected it by bilinear resampling to the same 500\,m UTM Zone~4N grid as the DEM, so the island-wide surface and the farm-cell temperatures come from one grid at one scale. A regression fit to the farm cells themselves is unusable: elevation does not predict farm-cell temperature within either district in isolation ($R^2 \approx 0.01$ against ERA5-Land), and ERA5-Land's 9\,km grid cannot resolve a within-district gradient. Over island land the climatology spans 5.6--23.8\,\textdegree C, consistent with the $\approx$22--24\,\textdegree C statewide sea-level mean and the $\approx-6$ to $-6.5$\,\textdegree C\,km$^{-1}$ lapse reported below the trade-wind inversion \citep{KagawaVivianiGiambelluca2020, GiambellucaNullet1991}.
+
+Separate Gaussian thermal envelopes approximate each district's thermal niche, consistent with unimodal species--environment response assumptions widely used in ecological modelling \citep{Guisan2000}:
+\[
+    S_r(T,\,\Delta T) = \exp\!\left[-\frac{1}{2}
+    \left(\frac{T + \Delta T - \mu_r}{\sigma_r}\right)^2\right]
+\]
+where $\mu_r$ and $\sigma_r$ are the mean and $1.5\times$ the standard deviation of that climatology sampled at each farm cell's own location across the 471 labelled farm cells ($\mu_{\text{Kona}}=21.00$\,\textdegree C, $\sigma_{\text{Kona}}=1.37$\,\textdegree C, Kona $n = 409$; $\mu_{\text{Ka'u}}=20.82$\,\textdegree C, $\sigma_{\text{Ka'u}}=1.04$\,\textdegree C, $n=62$). The $1.5\times$ inflation stands in for farm-scale microclimatic variability---shade, canopy, very local aspect---unresolved at 500\,m. It is a judgement, not a calibrated quantity, so we report its consequences: it changes no gain/loss count at all (see below), and moves the 2035 multiplier only from 6.9 to 7.1$\times$ (Kona) and 3.6 to 4.2$\times$ (Ka\okina u) across $1.0$--$2.0\times$, less than either the terrain threshold or the distance metric moves it. One thermal model, one temperature scale, both districts, both the constrained and unconstrained analyses.
+
+Two properties of this construction govern how its outputs read. First, for a Gaussian envelope $\sigma_r$ cancels out of the \textit{sign} of the classification: $\Delta S_r(h) > 0 \iff T < \mu_r - \Delta T_h/2$, independent of $\sigma_r$, for any $T$. It sets magnitudes---the level set $\mathcal{C}_r$, the colour scales---but never which cells gain or lose. Second, the thermal and terrain screens are not independent, and less so at this scale than an island-wide statistic implies. Regressed on elevation across all island land the climatology gives $R^2 = 0.98$ (implied lapse $-5.05$\,\textdegree C\,km$^{-1}$, residual SD $0.60$\,\textdegree C), but that residual is curvature across the full $0$--$4{,}166$\,m span, nearly all of it above the coffee belt. Restricted to the $150$--$950$\,m band the districts occupy, the fit is $R^2 = 0.999$, slope $-5.721$\,\textdegree C\,km$^{-1}$, residual SD $0.032$\,\textdegree C. This within-belt slope is what converts every temperature threshold to an elevation, since every such boundary lies inside the belt. Aspect explains under 1\% of the residual, which is 43$\times$ smaller than $\sigma_{\text{Kona}}$ and 31$\times$ smaller than $\Delta T_{2035}$.
+
+This is a property of the product. The Kodama climatology is built by optimised piecewise-linear regression on elevation \citep{Kodama2024}, so within one narrow band it cannot carry information independent of elevation. Adopting it replaced an \textit{assumed} elevation dependence with an \textit{observed} one---lapse, intercept and curvature are now measured---but it did not make the two screens independent, and no gridded product built this way could. Within the belt, temperature is elevation. The boundary therefore stays close to a single isotherm and hence a single contour, and the two districts' near-identical island-wide gain fractions follow directly from their near-identical $\mu_r$.
+
+Thermal suitability change at horizon $h$ is:
+\[
+    \Delta S_r(h) = S_r(T,\,\Delta T_h) - S_r(T,\,0)
+\]
+Positive $\Delta S$ indicates warming toward greater alignment with the thermal optimum; negative values indicate reduced alignment.
+
+One consequence bounds what the spatial analysis can claim. Because $\mu_r$ is the mean of the same distribution against which $\Delta S_r$ is evaluated, the declining fraction is approximately $\Phi(\Delta T_h / 2 s_r)$ for uninflated $s_r$: for Kona at 2035 the closed form gives 70.8\% against an observed 72.1\%, for Ka\okina u 76.5\% against 77.4\%. The statistic is largely the ratio of warming to within-district temperature spread. What the gridded analysis adds is spatial: which cells decline, whether they coincide with farmed land, and whether improving cells fall inside the footprint.
+
+Two quantities use this score and are kept separate. The \textit{direction-of-change} statistic $\Delta S_r(h)$ classifies each cell as gaining or losing under warming irrespective of its absolute level. The \textit{thermal suitability set} is a level set, $\mathcal{C}_r(\Delta T) = \{g \in \mathcal{G} : S_r(T_g, \Delta T) > \tau\}$: farmable cells whose absolute future suitability exceeds $\tau$, gain or loss. Only $\mathcal{C}_r$ defines the multiplier, because a cold high cell can register $\Delta S_r > 0$ while warming from a negligible score to a still-negligible one, and counting that as opportunity would inflate the thermal-only set with land never viable. We use $\tau = 0.5$, with sensitivity over $0.1$--$0.8$ reported in \S\ref{sec:results:overestimation}.
+
+\subsection{Farmability Screen}
+\label{sec:methods:farmability}
+
+All projections are restricted to farmable terrain: maximum slope $\leq 25$\textdegree, excluding cliff margins, \textit{and} not mapped as a lava flow of Historic (A.D.\ 1790 or younger) age (\S\ref{sec:data:geology})---slope alone does not exclude young, barren, unconsolidated lava fields, which can be flat enough to pass a slope-only screen while remaining agriculturally unusable. Of island land, 84.8\% satisfies both criteria: 94.3\% passes the slope criterion alone, and the historic-lava exclusion removes a further 9.5 percentage points (4{,}044 cells; a further 149 historic-lava cells sit on terrain already excluded as too steep, so the two criteria overlap slightly and 9.9\% of island land is historic lava in total). The excluded flows are concentrated on Mauna Loa's southwest rift and Kīlauea's east and southwest rift zones.
+
+\subsection{Uncertainty Quantification}
+\label{sec:methods:uncertainty}
+
+Farm cells are spatially contiguous, so intervals are spatial block bootstraps (blocks of $\approx$8 cells by $k$-means on projected coordinates; 2{,}000 replicates; the whole screen refitted within each replicate for the factor). Block intervals are 1.8--2.4$\times$ wider than independent resampling, which is anticonservative here. Construction and diagnostics are in Supplementary Note~S1.
+
+\subsection{Terrain-Thermal Convergence Analysis}
+
+The terrain-thermal convergence map is the study's primary analytical product (Figure~\ref{fig:convergence}). For each farmable cell, thermal suitability change is displayed only if the cell passes the topographic feasibility screen, and is colour-coded by the matched regional envelope: Kona-like cells receive $\Delta S_{\text{Kona}}$; Ka\okina u-like cells receive $\Delta S_{\text{Ka'u}}$. Farmable cells outside both profiles are shown in mid-grey---these cells may experience thermally favourable futures but lack the terrain, soil, and microclimate structure of existing coffee country. Steep terrain appears in light grey. The coloured footprint is the only geographic space where thermal adaptation signals are simultaneously grounded in terrain reality.
+
+\vspace{10pt}
+\hrule
+\vspace{10pt}
+
+% ── References ────────────────────────────────────────────────────────────────
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+% ── Acknowledgements ──────────────────────────────────────────────────────────
+\section*{Acknowledgements}
+
+The author thanks the organizations that make these data freely available: ECMWF and the Copernicus Climate Change Service (ERA5-Land); NASA (NEX-GDDP-CMIP6); ESA (Sentinel-2, via Google Earth Engine); the USGS (3DEP 1/3 arc-second DEM; and, with the National Park Service Geologic Resources Inventory, the digital geologic map of Hawai\okina i, Trusdell et al.\ 2006 after Wolfe and Morris 1996); the University of Hawai\okina i at Hilo SDAV Laboratory and the Hawai\okina i Department of Agriculture (Statewide Agricultural Land Use Baseline); the USDA NRCS (SSURGO); and the Hawai\okina i Climate Data Portal (Kodama et al.\ 2024). Thanks also to the family members who joined fieldwork, and to the staff at Bay View Farm---particularly the tour guide whose patience with a persistent line of questions about elevation, processing, and terroir proved more useful than they probably expected.
+
+% ── Author Contributions ──────────────────────────────────────────────────────
+\section*{Author Contributions}
+
+S.-H.E.: Conceptualization, Methodology, Software, Formal Analysis, Data Curation, Writing --- Original Draft, Writing --- Review \& Editing, Visualization.
+
+% ── Data Availability ─────────────────────────────────────────────────────────
+\section*{Data Availability}
+
+All analysis code and derived data products are available at \url{https://github.com/simonhansedasi/GeoGastronomy/tree/main/JavaScript}, titled `JavaScript', containing the full analysis pipeline. Raw CMIP6 data: NASA NEX-GDDP-CMIP6 archive (\url{https://www.nccs.nasa.gov/services/data-collections/land-based-products/nex-gddp-cmip6}). SSURGO soil data: USDA Soil Data Access API (\url{https://sdmdataaccess.sc.egov.usda.gov}). ERA5-Land data: Copernicus Climate Data Store (\url{https://cds.climate.copernicus.eu}). Sentinel-2 imagery: ESA, accessed via Google Earth Engine (\url{https://earthengine.google.com}). DEM: USGS 3D Elevation Program (\url{https://www.usgs.gov/3d-elevation-program}). Hawai\okina i Statewide Agricultural Land Use Baseline: Hawai\okina i Statewide GIS Program (\url{https://geodata.hawaii.gov}). Gridded temperature climatology: Hawai\okina i Climate Data Portal, Kodama et al.\ \citep{Kodama2024} (\url{https://www.hawaii.edu/climate-data-portal/}). Digital geologic map / lava-flow age: Trusdell et al.\ \citep{Trusdell2006} (\url{https://pubs.usgs.gov/ds/2005/144/}), NPS Geologic Resources Inventory shapefile reformatting (\url{https://irma.nps.gov/DataStore/Reference/Profile/1044526}).
+
+% ── Competing Interests ───────────────────────────────────────────────────────
+\section*{Competing Interests}
+
+The author declares no competing interests.
+
+\section*{Funding}
+
+The author received no funding for this work.
+\end{document}

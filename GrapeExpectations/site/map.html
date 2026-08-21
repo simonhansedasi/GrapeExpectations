@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrapeExpectations — interactive vineyard map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<style>
+  html, body { margin: 0; height: 100%; background: #0f0f0f; font-family: -apple-system, "Segoe UI", Arial, sans-serif; }
+  #wrap { position: relative; width: 100%; height: 100%; }
+  #map { position: absolute; inset: 0; background: #161616; }
+
+  #panel {
+    position: absolute; top: 10px; left: 10px; z-index: 1000;
+    background: #1e1e1eee; border: 1px solid #333; border-radius: 6px;
+    padding: 10px 12px; color: #ddd; font-size: 13px; max-width: 220px;
+  }
+  #panel h3 { margin: 0 0 8px; font-size: 13px; color: #4fc3f7; font-weight: 600; }
+  #panel label { display: block; margin: 4px 0; cursor: pointer; }
+  #panel input { margin-right: 6px; }
+
+  #legend {
+    position: absolute; bottom: 14px; left: 10px; z-index: 1000;
+    background: #1e1e1eee; border: 1px solid #333; border-radius: 6px;
+    padding: 8px 10px; color: #ccc; font-size: 11px; font-family: "SF Mono", Menlo, monospace;
+  }
+  #legend .bar { width: 160px; height: 10px; border-radius: 2px; margin-bottom: 4px; }
+  #legend .ticks { display: flex; justify-content: space-between; }
+
+  .leaflet-tooltip.ge-tip {
+    background: #1e1e1e; color: #eee; border: 1px solid #4fc3f7;
+    font-family: "SF Mono", Menlo, monospace; font-size: 11px;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="map"></div>
+
+  <div id="panel">
+    <h3>Layer</h3>
+    <label><input type="radio" name="layer" value="ndvi_mean_2025" checked> NDVI snapshot (2025)</label>
+    <label><input type="radio" name="layer" value="ndvi_trend_per_year"> NDVI trend (9yr)</label>
+    <label><input type="radio" name="layer" value="elev_mean"> Elevation</label>
+    <label><input type="radio" name="layer" value="slope_mean"> Slope</label>
+  </div>
+
+  <div id="legend">
+    <div class="bar" id="legend-bar"></div>
+    <div class="ticks"><span id="legend-lo"></span><span id="legend-hi"></span></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+// Same color conventions as _mapping.py (powerbi_dashboard/): sequential
+// tan->green for NDVI magnitude (green-means-vegetated, tan floor avoids
+// the void-trap a white/black floor causes), diverging red<->gray<->blue
+// for the signed 9-year trend, centered at true zero. Elevation/slope get
+// a neutral grayscale -- same soft-gradient choice as the QGIS DEM basemap
+// used earlier in this project, no invented color story needed there.
+var FIELDS = {
+  ndvi_mean_2025:       { label: "NDVI (2025)",     kind: "sequential", lo: 0.239, hi: 0.479, stops: ["#d9c38a", "#0ca30c", "#0a4d0a"] },
+  ndvi_trend_per_year:  { label: "NDVI trend/yr",   kind: "diverging",  lo: -0.028, hi: 0.026, stops: ["#e34948", "#f0efec", "#0d366b"] },
+  elev_mean:            { label: "Elevation (m)",   kind: "sequential", lo: 110, hi: 286, stops: ["#3a3a3a", "#e8e8e8"] },
+  slope_mean:           { label: "Slope (deg)",     kind: "sequential", lo: 1.3, hi: 14.7, stops: ["#3a3a3a", "#e8e8e8"] },
+};
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+function hexToRgb(h) {
+  var n = parseInt(h.slice(1), 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+function rgbToHex(rgb) {
+  return "#" + rgb.map(function (v) {
+    return Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0");
+  }).join("");
+}
+// t in [0,1] across the full stop list (2 or 3 stops)
+function rampColor(stops, t) {
+  t = Math.max(0, Math.min(1, t));
+  var n = stops.length - 1;
+  var seg = Math.min(n - 1, Math.floor(t * n));
+  var localT = t * n - seg;
+  var a = hexToRgb(stops[seg]), b = hexToRgb(stops[seg + 1]);
+  return rgbToHex([lerp(a[0], b[0], localT), lerp(a[1], b[1], localT), lerp(a[2], b[2], localT)]);
+}
+
+function colorFor(field, value) {
+  var f = FIELDS[field];
+  if (value === null || value === undefined || isNaN(value)) return "#555";
+  if (f.kind === "diverging") {
+    var absMax = Math.max(Math.abs(f.lo), Math.abs(f.hi));
+    var t = (value + absMax) / (2 * absMax); // 0 at -absMax, 0.5 at 0, 1 at +absMax
+    return rampColor(f.stops, t);
+  }
+  var t = (value - f.lo) / (f.hi - f.lo);
+  return rampColor(f.stops, t);
+}
+
+function updateLegend(field) {
+  var f = FIELDS[field];
+  document.getElementById("legend-bar").style.background =
+    "linear-gradient(to right, " + f.stops.join(", ") + ")";
+  document.getElementById("legend-lo").textContent = f.lo.toFixed(f.kind === "diverging" ? 3 : 1);
+  document.getElementById("legend-hi").textContent = f.hi.toFixed(f.kind === "diverging" ? 3 : 1);
+}
+
+var map = L.map("map", { zoomControl: true, attributionControl: false, preferCanvas: true }).setView([45.88, -119.76], 14);
+
+var currentField = "ndvi_mean_2025";
+var geoLayer = null;
+
+function styleFor(feature) {
+  return {
+    fillColor: colorFor(currentField, feature.properties[currentField]),
+    color: "#0006",
+    weight: 0.3,
+    fillOpacity: 0.95,
+  };
+}
+
+// Server doesn't gzip .geojson (checked: nginx sends it uncompressed,
+// 13.5MB over the wire). Rather than touch nginx config on a shared box,
+// fetch the pre-gzipped file directly and decompress with the browser's
+// native DecompressionStream -- drops the real transfer to ~1.3MB.
+// Falls back to the plain file on older browsers (Safari < 16.4, etc).
+function loadGeojson() {
+  if (typeof DecompressionStream === "function") {
+    return fetch("data/ndvi_interactive.geojson.gz")
+      .then(function (r) {
+        if (!r.ok) throw new Error("gz fetch failed");
+        var ds = new DecompressionStream("gzip");
+        return new Response(r.body.pipeThrough(ds)).json();
+      })
+      .catch(function () {
+        return fetch("data/ndvi_interactive.geojson").then(function (r) { return r.json(); });
+      });
+  }
+  return fetch("data/ndvi_interactive.geojson").then(function (r) { return r.json(); });
+}
+
+loadGeojson()
+  .then(function (data) {
+    geoLayer = L.geoJSON(data, {
+      renderer: L.canvas({ padding: 0.4 }),
+      style: styleFor,
+      onEachFeature: function (feature, layer) {
+        var p = feature.properties;
+        layer.bindTooltip(
+          "tile " + p.tile_id +
+          "<br>NDVI 2025: " + p.ndvi_mean_2025.toFixed(3) +
+          "<br>NDVI trend/yr: " + p.ndvi_trend_per_year.toFixed(4) +
+          "<br>elev: " + p.elev_mean.toFixed(1) + " m" +
+          "<br>slope: " + p.slope_mean.toFixed(2) + "°",
+          { className: "ge-tip", sticky: true }
+        );
+      },
+    }).addTo(map);
+    map.fitBounds(geoLayer.getBounds());
+    updateLegend(currentField);
+  });
+
+document.querySelectorAll('input[name="layer"]').forEach(function (radio) {
+  radio.addEventListener("change", function () {
+    currentField = this.value;
+    if (geoLayer) geoLayer.setStyle(styleFor);
+    updateLegend(currentField);
+  });
+});
+</script>
+</body>
+</html>

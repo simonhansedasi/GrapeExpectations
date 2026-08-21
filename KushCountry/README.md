@@ -1,16 +1,18 @@
 # KushCountry
 
-## Unsupervised Terrain Fingerprinting (UTF) — Cannabis Demonstration Case
+## Environmental Stratification — Cannabis Case Study, Benchmarked Against Simpler Baselines
 
-Part of the [GeoGastronomy](../) research program. **Target journal: Remote Sensing (MDPI).**
+Part of the [GeoGastronomy](../) research program. **Target journal: undecided** (was Precision Agriculture/Springer; open per 2026-07-26 decision — see CONTEXT.md).
 
 ---
 
 ## What this is
 
-A demonstration of **Unsupervised Terrain Fingerprinting (UTF)**: a six-step framework for recovering land-use suitability archetypes from unlabeled Earth observation and environmental data. Cannabis cultivation in California's Emerald Triangle is the demonstration case.
+Environmental stratification — unsupervised clustering of terrain, climate, soil, and satellite-derived canopy data into landscape archetypes, evaluated post-hoc against literature agronomic envelopes — applied to outdoor cannabis cultivation in California's Emerald Triangle. This is **not** a novel method; it's a 40+ year old technique (ecoregionalization, land classification) applied to a crop with no labeled training data, since California's Department of Cannabis Control withholds all cultivator coordinates by policy.
 
-California's Department of Cannabis Control deliberately withholds all spatial information for licensed cultivators — there are no cultivation polygons to train on. UTF sidesteps this by stacking terrain, climate, soil, and remotely sensed canopy structure (Sentinel-2 NDVI) across the Emerald Triangle, letting k-means clustering self-organize the landscape, and identifying which archetype matches documented cannabis cultivation conditions. The cannabis-suitable cluster emerged without any labeled input. The framework generalizes to any specialty crop where cultivation locations are suppressed, restricted, or absent.
+**The paper's honest finding, as of 2026-07-26:** the clustering-derived suitability zone does **not** clearly outperform two much simpler baselines (a univariate GDD threshold, and an expert-weighted multicriteria/MCDA score) on independent enforcement-record validation. The GDD threshold beats clustering on lift and recall; MCDA roughly ties on lift with much better recall. This is now the paper's central, foregrounded methodological finding, not a buried caveat — see `suggestions_pete.md` and `suggestions_claude.md` for the external review that triggered the full rebuild, and CONTEXT.md for the blow-by-blow.
+
+The old framing (**"Unsupervised Terrain Fingerprinting (UTF)," a named six-step "framework"**) has been dropped entirely per an explicit decision on 2026-07-26, once the baseline comparison showed clustering wasn't earning its complexity. Do not reintroduce "UTF" branding without a new explicit decision — it isn't just a naming preference, it materially overclaimed what the pipeline does relative to `writing/paper.tex`'s current related-work framing.
 
 ---
 
@@ -19,7 +21,7 @@ California's Department of Cannabis Control deliberately withholds all spatial i
 Humboldt, Mendocino, and Trinity Counties, California — the Emerald Triangle. The established US outdoor cannabis appellation and the most climatically diverse three-county region in the state.
 
 - EPSG:32610 (UTM Zone 10N) throughout
-- 8,900 hexagonal cells at 2 km spacing
+- 8,900 hexagonal cells at 2 km spacing (true area 3.4641 km²/cell — verify against actual polygon geometry, not a formula assumption, if this ever needs recomputing; an earlier draft used 3.29 km²/cell and got every area figure in the paper wrong)
 - Study extent from US Census TIGER 2023 county boundaries
 
 ---
@@ -43,24 +45,26 @@ Humboldt, Mendocino, and Trinity Counties, California — the Emerald Triangle. 
 
 | Notebook | What it does |
 |----------|-------------|
-| `01_model.ipynb` | PCA on scaled features; synthetic RF task (real vs shuffled) for permutation importance; PC1 = coast–interior gradient |
-| `02_clustering.ipynb` | K-means on StandardScaler-equalized PC scores; K=7; cluster 0 = cannabis archetype (GDD 1395, VPD 1568, elev 527m, pH 5.84); dissolves to suitability zone (1,924 cells, ~6,325 km², 22.2% of study area) |
-| `03_ndvi_regression.ipynb` | RF regressor within cluster 0; target ndvi_std; CV R²=0.650 ± 0.043; slope is dominant driver (permutation importance 0.59), pH second (0.39), sand (0.13), SOC (0.11) |
-| `04_subclustering.ipynb` | Sub-clusters cluster 0 using features weighted by ML/03 importance; K=6; prime stratum = 714 cells (pH 6.02, slope 19.0°, VPD 1624 Pa) |
-| `05_validation.ipynb` | Scrapes RWQCB NOV PDF archive (510 PDFs); extracts APNs; geocodes via Humboldt parcel REST API; 91 parcels matched to hex grid; χ²(6)=36.6, p=2.1×10⁻⁶, Cramér's V=0.26; cluster 0 lift=3.41 |
-| `06_robustness.ipynb` | K sensitivity (K=4–7, archetype 4/4 criteria at all K); bootstrap ARI (mean=0.974, n=50); feature ablation (terrain→+climate→+soil→+EO); Cramér's V |
+| `01_model.ipynb` | PCA on scaled features; synthetic RF task (real vs shuffled) for permutation importance; PC1 = coast–interior gradient (59.2% of variance among 6 kept PCs) |
+| `02_clustering.ipynb` | K-means on StandardScaler-equalized PC scores; K=7; cluster 0 = cannabis archetype (GDD 1395, VPD 1568, elev 527m, pH 5.84); dissolves to suitability zone (1,924 cells, ~6,665 km², 22.2% of study area). Also tests whitened vs. unwhitened clustering: ARI=0.456, confirming the whitening choice materially changes the partition rather than being cosmetic. |
+| `03_ndvi_regression.ipynb` | RF regressor within cluster 0; target ndvi_std; random 5-fold CV R²=0.650±0.043, **spatial block CV (10km blocks) R²=0.601±0.037** (8% relative drop, real but not devastating). Slope dominant (marginal importance 0.59, **conditional importance 0.43** after accounting for its correlation with relief), pH second (0.39 marginal / 0.34 conditional). Ranking is stable under conditioning; magnitudes are not. |
+| `04_subclustering.ipynb` | Sub-clusters cluster 0 (labeled **S0–S5** in the paper, not C0–C5, to avoid colliding with the main 0–6 cluster numbers) using features weighted by ML/03 importance; K=6; prime stratum S0 = 714 cells (pH 6.02, slope 19.0°, VPD 1624 Pa, ~2,473 km²) |
+| `05_validation.ipynb` | **Superseded by `08_validation_rebuild.ipynb`** — the original had a parcel-join bug (point-in-polygon boundary double-matching) and an APN-extraction regex bug (only matched 4-segment APNs, missing common 3-segment formats). Kept for history; do not cite its numbers. |
+| `06_robustness.ipynb` | K sensitivity (K=4–7, archetype 4/4 criteria at all K); bootstrap ARI (mean=0.974, n=50, confirmed run at K=7 despite stale "K=5" comments that have since been fixed); feature ablation **now scored against external enforcement lift/recall, not just internal ARI-vs-full-stack** (that internal comparison is tautological for the full stack); Cramér's V, now computed on the corrected 135-parcel validation set |
+| `07_baselines.ipynb` | **New.** Decision-gate comparison: cluster 0 vs. a GDD-threshold zone vs. a GIS-MCDA zone, all sized identically. Uses ML/08's corrected validation data. This is the notebook behind the paper's central finding. |
+| `08_validation_rebuild.ipynb` | **New, supersedes ML/05.** Fixes the parcel-join and APN-extraction bugs, documents the full 510→135 parcel loss cascade, adds a Monte Carlo chi-square (asymptotic isn't valid at these expected counts), tests the enforcement-accessibility confound via logistic regression, and tests the Moran (2017) hierarchical-filtering claim directly (not supported in its strong form). |
 
 ---
 
-## Key Results
+## Key Results (corrected, 2026-07-26)
 
-- **Cannabis archetype identified without any labeled data.** Cluster 0 (K=7) matches documented cultivation conditions: mid-elevation interior (527m mean), warm-dry growing season (GDD 1395, VPD 1568 Pa), Mediterranean precip pattern (1,102 mm/yr). Covers 22.2% of study area.
-- **Coastal fog belt correctly excluded.** Interior mid-elevation zones dominate the suitability zone.
-- **Slope is the dominant driver of canopy heterogeneity within the suitability zone** (permutation importance 0.59), followed by soil pH (0.39), sand fraction (0.13), and SOC (0.11). Terrain geometry and soil chemistry govern productive variation within a climatically suitable envelope.
-- **Sub-clustering identifies prime terrain:** 714 cells with near-optimal pH (6.02), accessible slopes (19.0°), elevated VPD (1624 Pa).
-- **Enforcement-based validation directly confirms the archetype** (χ²(6)=36.6, p=2.1×10⁻⁶, Cramér's V=0.26): cluster 0 = only 2.9% of Humboldt terrain but 9.9% of RWQCB enforcement parcels (lift=3.41). Humboldt-corrected baseline is the correct reference for parcels drawn exclusively from Humboldt County records.
-- **EO contributes non-redundant structure:** satellite-derived canopy heterogeneity (NDVI std) completes the partition geometry that terrain, climate, and soil alone cannot recover.
-- **Robust to K choice:** cannabis archetype recovers at 4/4 agronomic criteria for K=4,5,6,7. Bootstrap stability mean ARI=0.974 across 50 subsamples.
+- **Cannabis archetype identified without any labeled data.** Cluster 0 (K=7) matches documented cultivation conditions: mid-elevation interior (527m mean), warm-dry growing season (GDD 1395, VPD 1568 Pa), Mediterranean precip pattern (1,102 mm/yr). Covers 22.2% of study area, ~6,665 km² (not 6,325 — old area figures used a wrong km²/cell constant).
+- **But clustering does not clearly beat simpler baselines on validation** (`ML/07`): GDD threshold lift=3.72 vs. cluster 0's 3.32, with triple the recall (30% vs. 10%) and a far more coherent zone (25 patches vs. 113). MCDA ties on lift (3.31) with much better recall (24%). This is the paper's headline methodological finding now, not a limitation buried in Discussion.
+- **Enforcement validation, corrected:** 135 parcels (not 91 — a parcel-join bug and an APN-regex bug both undercounted this), lift=2.79 (not 3.41), χ²(4)=18.58, Monte Carlo p=0.0013 (not the old asymptotic-only p=2.1e-6 over the wrong degrees of freedom). Still real and significant, about half the effect size originally claimed.
+- **The enforcement signal is confounded with accessibility.** Distance to town significantly predicts enforcement presence (p=0.005) independent of cluster; cluster 0's own effect drops to non-significance (p=0.194) once that's controlled for. Read the validation as convergent evidence, not independent confirmation.
+- **The Moran (2017) hierarchical-filtering claim is not supported.** Tested directly using enforcement parcels as a stand-in: only 48.9% fall within even a generous 3-cluster suitability envelope; the largest single group (44.4%) sits outside it entirely.
+- **Slope and soil pH dominate within-zone canopy heterogeneity**, robust to conditional permutation importance (ranking survives; magnitudes shrink ~25-30%) and to spatial block CV (R² drops 8% relative, real but modest). One caveat not fully resolved: slope's relationship to NDVI heterogeneity could partly reflect topographic shading rather than agronomy — a partial check (comparing slope's correlation to more direct shading proxies) is reassuring but not conclusive; full illumination correction of the Sentinel-2 imagery was not performed.
+- **EO (satellite NDVI) does not clearly improve validation.** The internal ablation ARI progression looked monotonic, but that's tautological for the full stack. Scored against external enforcement lift, terrain+climate alone (Stack B) beats the full stack.
 
 ---
 
@@ -73,6 +77,7 @@ Humboldt, Mendocino, and Trinity Counties, California — the Emerald Triangle. 
 | NDVI | Sentinel-2 SR via GEE | 30 m composite |
 | Climate | Daymet V4 via GEE (NASA/ORNL) | 1 km daily |
 | Soil | SoilGrids ISRIC WCS 2.0.1 | 250 m |
+| Roads / populated places (new) | Census TIGER 2023 (`tl_2023_06023_roads.zip`, `tl_2023_06_place.zip`) | vector |
 
 **Note on soil units:** SoilGrids encodes pH ×10 (60 = actual pH 6.0), SOC in dg/kg, CEC in mmol/kg. All profile comparisons must account for this.
 
@@ -80,11 +85,11 @@ Humboldt, Mendocino, and Trinity Counties, California — the Emerald Triangle. 
 
 ## Stack
 
-Python 3.7+. `geopandas`, `rasterio`, `shapely`, `pyproj`, `scikit-learn`, `pandas`, `numpy`, `matplotlib`, `seaborn`, `scipy`, `requests`, `earthengine-api`.
+Python 3.7+. `geopandas`, `rasterio`, `shapely`, `pyproj`, `scikit-learn`, `pandas`, `numpy`, `matplotlib`, `seaborn`, `scipy`, `requests`, `earthengine-api`, `statsmodels` (new, for the enforcement-bias logistic regression), `pdfplumber` (re-extraction of NOV PDFs).
 
 GDAL command-line tools (`gdalbuildvrt`, `gdalwarp`, `gdaldem`, `gdal_calc.py`) for raster operations.
 
-Google Earth Engine authenticated session required for `04_ndvi.ipynb` and `05_climate.ipynb`. Run `earthengine authenticate` once before first use.
+Google Earth Engine authenticated session required for `04_ndvi.ipynb`, `05_climate.ipynb`, and the ad hoc Apr–Oct growing-season temperature query in `writing/paper.tex`'s Table 1 footnote. Run `earthengine authenticate` once before first use.
 
 See `requirements.txt`.
 
@@ -98,11 +103,17 @@ KushCountry/
 ├── CONTEXT.md
 ├── CLAUDE.md
 ├── requirements.txt
+├── suggestions_pete.md          — external review, lighter pass
+├── suggestions_claude.md        — external review, the one that triggered the full rebuild
 ├── data_wrangling/       00–07: ingestion and feature extraction
-├── ML/                   01–06: PCA, clustering, regression, sub-clustering, validation, robustness
-├── writing/              paper.tex + cover_letter.tex + references.bib (target: MDPI Remote Sensing)
+├── ML/                   01–08: PCA, clustering, regression, sub-clustering, validation
+│                         (05 superseded by 08), robustness, baselines (07, new)
+├── writing/              paper.tex + cover_letter.tex + references.bib
+│                         (target journal: undecided as of 2026-07-26; UTF branding dropped)
 ├── data/
-│   ├── raw/              TIGER, DEM tiles, hex grid, county polygons, NOV PDF cache
-│   └── processed/        features, clusters, subclusters, zone gpkgs, validation, robustness
-└── img/                  figures at 150 dpi (ML01–ML06)
+│   ├── raw/              TIGER, DEM tiles, hex grid, county polygons, NOV PDF cache, roads/places (new)
+│   └── processed/        features, clusters, subclusters, zone gpkgs, validation (v2/v3 = corrected),
+│                         robustness, baseline_comparison.pkl (new), conditional_importance.pkl (new),
+│                         whitening_check.pkl (new), enforcement_bias_regression_data.pkl (new)
+└── img/                  figures at 150 dpi (ML01–ML08)
 ```

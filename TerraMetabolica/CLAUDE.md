@@ -1,0 +1,1 @@
+/home/simonhans/coding/contexts/GeoGastronomy/TerraMetabolica/CLAUDE.md

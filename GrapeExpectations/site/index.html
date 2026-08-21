@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrapeExpectations</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, "Segoe UI", Arial, sans-serif;
+    background-color: #0f0f0f;
+    color: #f0f0f0;
+    line-height: 1.6;
+    padding-bottom: 60px;
+  }
+
+  .wrap { max-width: 860px; margin: 0 auto; padding: 48px 20px 80px; }
+
+  header { margin-bottom: 56px; }
+
+  h1 {
+    font-size: 2.1em;
+    color: #fff;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+
+  .tagline { color: #aaa; font-size: 1.05em; max-width: 640px; }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .stat {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 12px 18px;
+    min-width: 140px;
+  }
+
+  .stat .num { font-size: 1.3em; font-weight: bold; color: #4fc3f7; }
+  .stat .label { font-size: 0.8em; color: #999; margin-top: 2px; }
+
+  section { margin-bottom: 56px; }
+
+  h2 {
+    font-size: 1.3em;
+    color: #fff;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+  }
+
+  h3 { font-size: 1.05em; color: #f0f0f0; margin: 20px 0 8px; }
+
+  p { color: #ccc; margin-bottom: 14px; }
+
+  code {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.9em;
+    color: #4fc3f7;
+    font-family: "SF Mono", Menlo, monospace;
+  }
+
+  ul { margin: 0 0 14px 20px; color: #ccc; }
+  li { margin-bottom: 6px; }
+
+  a { color: #4fc3f7; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .card {
+    background: #161616;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+
+  .in-progress {
+    background: #1a1607;
+    border: 1px solid #4a3f0f;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.92em;
+  }
+
+  .in-progress .tag {
+    display: inline-block;
+    background: #4a3f0f;
+    color: #e0c94f;
+    font-size: 0.75em;
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+
+  .btn {
+    display: inline-block;
+    background: #1a3a4a;
+    color: #4fc3f7;
+    border: 1px solid #4fc3f7;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    margin: 4px 8px 4px 0;
+  }
+  .btn:hover { background: #204a5e; text-decoration: none; }
+
+  figure { margin: 18px 0; }
+  figure img { width: 100%; border-radius: 6px; border: 1px solid #2a2a2a; display: block; }
+  figcaption { font-size: 0.85em; color: #888; margin-top: 8px; }
+
+  .embed-slot {
+    background: #161616;
+    border: 1px dashed #444;
+    border-radius: 6px;
+    padding: 40px 20px;
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
+  }
+
+  .gotcha {
+    border-left: 2px solid #4fc3f7;
+    padding-left: 14px;
+    margin: 10px 0;
+    color: #bbb;
+    font-size: 0.94em;
+  }
+
+  .map-toggle { margin: 18px 0; }
+  .map-toggle-tabs { display: flex; gap: 8px; margin-bottom: 4px; }
+  .map-toggle-btn {
+    background: #1e1e1e;
+    color: #aaa;
+    border: 1px solid #333;
+    border-radius: 6px 6px 0 0;
+    padding: 8px 16px;
+    font-size: 0.9em;
+    cursor: pointer;
+  }
+  .map-toggle-btn.active { background: #1a3a4a; color: #4fc3f7; border-color: #4fc3f7; }
+  .map-toggle-panel { display: none; }
+  .map-toggle-panel.active { display: block; }
+
+  /* Shared wide container for anything meant to be roomier than the
+     860px reading column (.wrap) -- a fixed max-width centered with
+     margin:auto, NOT the position:left:50%/width:100vw/margin-left:-50vw
+     "full bleed" trick. That trick computes 100vw before the vertical
+     scrollbar (if any) claims its ~15-17px, so the element ends up wider
+     than the actual viewport and the page gets a permanent horizontal
+     scrollbar. A plain max-width never has that failure mode. */
+  .wide { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+  .branches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .branches .card { height: auto; }
+
+  .hero-map iframe { width: 100%; height: 640px; border: 1px solid #333; border-radius: 6px; display: block; }
+
+  summary {
+    cursor: pointer;
+    color: #4fc3f7;
+    font-size: 0.9em;
+    font-weight: bold;
+    list-style: none;
+    margin-top: 4px;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { text-decoration: underline; }
+  .details-body { margin-top: 14px; }
+
+  .teaser-figure-slot {
+    background: #161616;
+    border: 1px dashed #444;
+    border-radius: 6px;
+    padding: 30px 16px;
+    text-align: center;
+    color: #777;
+    font-size: 0.85em;
+    margin: 18px 0;
+  }
+
+  @media (max-width: 780px) {
+    .branches { grid-template-columns: 1fr; }
+    .hero-map iframe { height: 480px; }
+  }
+
+  footer {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    color: #888;
+    font-size: 0.9em;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>GrapeExpectations</h1>
+    <p class="tagline">
+        
+        A data project since August 2025. Precision viticulture pipeline used to model vine canopy health at 10 m resolution using nine years of Sentinel-2 imagery, USGS terrain statistics, SSURGO soil data, and gridMET climate data. Data is fused and fed through various ML pipelines serving purposes from caonpy vigor prediction to separating terroir from management signals. 
+        
+    </p>
+    <div class="stats">
+      <div class="stat"><div class="num">33,028</div><div class="label">hex cells, ~100 m² each</div></div>
+      <div class="stat"><div class="num">9 years</div><div class="label">Sentinel-2, 2016&ndash;2025</div></div>
+      <div class="stat"><div class="num">R&sup2; = 0.8950</div><div class="label">GBT, harvest-window NDVI anomaly</div></div>
+    </div>
+  </header>
+  </div>
+
+  <section id="explore" class="wide hero-map">
+    <div class="card">
+      <h2>Explore the vineyard, live</h2>
+      <p>
+        The same 33,028-cell grid behind everything below, live in the
+        browser — pan, zoom, hover a cell for its exact values, and toggle
+        between four layers: NDVI snapshot, 9-year NDVI trend, elevation,
+        and slope. Leaflet + a plain GeoJSON, no server, no tile pyramid.
+      </p>
+      <iframe src="map.html" title="Interactive vineyard map" loading="lazy"></iframe>
+    </div>
+  </section>
+
+  <section id="bi-report" class="wide">
+    <div class="card">
+      <h2>Looker Studio report, live</h2>
+      <iframe src="https://datastudio.google.com/embed/reporting/c1e421db-7759-486f-9863-1df45ffd5aae/page/Y0s6F"
+              frameborder="0" allowfullscreen
+              sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+              title="GrapeExpectations Looker Studio report"
+              style="width: 100%; max-width: 1200px; aspect-ratio: 1200 / 900; display: block; margin: 0 auto; border: 1px solid #333; border-radius: 6px;"></iframe>
+    </div>
+  </section>
+
+  <div class="branches wide">
+  <section id="pipeline">
+    <div class="card">
+      <h2>1. The pipeline — Python + Google Earth Engine</h2>
+      <figure>
+        <img src="img/gbt_actual_vs_predicted.png" alt="GBT actual vs predicted NDVI anomaly, held-out test set">
+        <figcaption>GBT actual vs. predicted, held-out test set. R&sup2;=0.8950.</figcaption>
+      </figure>
+      <p>
+        Nine years of Sentinel-2 NDVI, USGS terrain, gSSURGO soil, and
+        gridMET climate data, fused across 33,028 hex cells and fed into a
+        gradient-boosted model predicting harvest-window NDVI anomaly.
+        Random Forest and GBT were both trained and compared; GBT won.
+      </p>
+      <details>
+      <summary>Full write-up →</summary>
+      <div class="details-body">
+      <p>
+
+          Vineyard block polygons were drawn by hand in Google Earth, translated from KML to GeoJSON and retiled into 33,028 equal-area hexagonal cells ~10 m across, one Sentinel-2 pixel apiece). Cells are overlaid a terrain profile from the USGS 1 m DEM, soil properties from USGS gSSURGO, daily weather from gridMET, and NDVI data from Sentinel-2 pulled via Google Earth Engine. Nine years of data were used to train a stacked gradient-boosted model in PySpark MLlib to predict each cell's harvest-window NDVI anomaly
+
+      </p>
+
+      <h3>Real problems the GEE pull actually hit</h3>
+      <div class="gotcha">
+        <strong>Payload limit.</strong> Sending all 33,028 cell boundaries
+        inline in a <code>FeatureCollection</code> blew past GEE's 10 MB
+        request cap. Fixed by uploading the tile centroids as a GEE asset
+        once, then referencing that asset ID in every export task instead
+        of re-sending geometry each time.
+      </div>
+      <div class="gotcha">
+        <strong>Silent empty results.</strong>
+        <code>filterBounds()</code> against the uploaded asset returned
+        zero images — GEE didn't recognize a spatial extent on an asset
+        built from bare points. Fixed by computing an explicit
+        <code>ee.Geometry.BBox</code> from the centroid CSV's own
+        lon/lat min/max instead of trusting the asset's implicit bounds.
+      </div>
+      <div class="gotcha">
+        <strong>Point-in-polygon at the wrong scale.</strong> A 5 m buffer
+        around each centroid at 10 m pixel scale often contained no pixel
+        center at all, so <code>reduceRegion()</code> returned null.
+        <code>sampleRegions()</code> against the polygon set, not a
+        buffered point, was the fix.
+      </div>
+      <h3>Feature engineering: does decomposing slope + aspect actually help?</h3>
+      <p>
+        <code>slope_mean</code> (a magnitude) and <code>aspect_mean</code>
+        (a 0&ndash;360&deg; compass bearing) each throw away information on
+        their own &mdash; a slope's magnitude doesn't say which way the
+        hillside faces, and a bearing near 359&deg; is actually right next
+        to 1&deg;, not far from it. The fix: treat slope + aspect as one 2D
+        vector instead &mdash; <code>slope_x = tan(slope) &times;
+        cos(aspect)</code>, <code>slope_y = tan(slope) &times;
+        sin(aspect)</code>, plus <code>profile_curv</code>/<code>plan_curv</code>
+        (curvature split into along-slope vs. across-slope, instead of one
+        collapsed total). Checked directly against the trained model
+        rather than assumed: <code>slope_x</code> is the model's
+        <strong>#8 most important feature of 271</strong>, ahead of plain
+        <code>slope_mean</code> (#28) and <code>elev_mean</code> (#15).
+        Not every decomposition pays off the same way &mdash; the curvature
+        split stays weak either way &mdash; but this one is real, not a
+        BI-tool exercise. Same math, reused on the <a href="#bi">Looker
+        side</a> of this project.
+      </p>
+
+      <h3>Model training &mdash; Random Forest vs. Gradient-Boosted Trees</h3>
+      <p>
+        271 features &mdash; 35 weeks of pre-harvest NDVI trend, 35 weeks
+        of NDVI variability, 160 climate columns, 25 terrain, 16 soil &mdash;
+        predicting each cell's harvest-window NDVI anomaly (deviation from
+        the vineyard-wide mean that week, which strips out vintage effects
+        and isolates the spatial/terroir signal). Trained both a Random
+        Forest and a GBT ensemble on an 80/20 split (264,543 train /
+        65,737 test rows); GBT won clearly and is the model behind this
+        page's headline stat.
+      </p>
+      <div class="stats">
+        <div class="stat"><div class="num">R&sup2; = 0.8181</div><div class="label">Random Forest, test set</div></div>
+        <div class="stat"><div class="num">R&sup2; = 0.8950</div><div class="label">GBT, test set (deployed model)</div></div>
+        <div class="stat"><div class="num">RMSE = 0.0316</div><div class="label">GBT, harvest-window NDVI anomaly</div></div>
+      </div>
+      <p>
+        By feature group (Random Forest, similar split for GBT): NDVI
+        slope-of-trend 61.0%, NDVI variability 15.8%, terrain 10.0%,
+        climate 9.1%, soil 4.1% &mdash; canopy trajectory dominates, terrain
+        is the largest non-phenology group.
+      </p>
+      <figure>
+        <img src="img/rf_feature_importances.png" alt="Top 20 feature importances, Random Forest">
+        <figcaption>Random Forest &mdash; top 20 of 271 features.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/gbt_feature_importances.png" alt="Top 20 feature importances, GBT">
+        <figcaption>GBT (the deployed model) &mdash; top 20 of 271 features. <code>slope_x</code> at #8 is the terrain-decomposition result above, in context.</figcaption>
+      </figure>
+
+      <h3>Evaluation: actual vs. predicted</h3>
+      <p>
+        GBT predictions against ground truth on the held-out test set only
+        (not the training rows) &mdash; a tight band along y = x across the
+        full range, not just near the mean.
+      </p>
+      <figure>
+        <img src="img/gbt_actual_vs_predicted.png" alt="GBT actual vs predicted NDVI anomaly, held-out test set">
+        <figcaption>65,737 held-out test rows. R&sup2;=0.8950, RMSE=0.03164.</figcaption>
+      </figure>
+
+      <h3>Residual diagnostics &mdash; where is the model wrong, and is it wrong randomly?</h3>
+      <p>
+        Applying the trained GBT model to every cell across all 10 years
+        and mapping the average error back to the vineyard: per-tile mean
+        residual is centered on zero (std 0.0176) with no systematic
+        over- or under-prediction on average &mdash; but that average hides
+        a real pattern once it's mapped spatially.
+      </p>
+      <figure>
+        <img src="img/spatial_residuals.png" alt="Spatial map of GBT signed and absolute residuals across the vineyard">
+        <figcaption>Signed residuals (left) show a distinct under-predicted cluster in the northeast block and an over-predicted patch mid-vineyard &mdash; not scattered noise.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/spatial_residuals_diag.png" alt="Residual distribution histogram and spatial autocorrelation scatter">
+        <figcaption>Right panel: each tile's residual vs. the average residual of its 20 nearest neighbors. Moran's I proxy = 0.726.</figcaption>
+      </figure>
+      <p>
+        0.726 is strong spatial autocorrelation &mdash; a tile's error is a
+        good predictor of its neighbors' errors. That's the honest read,
+        not a "the model is great everywhere" one: terrain, soil, climate,
+        and phenology don't capture everything spatially structured in
+        this vineyard. The notebook's own framing is the right one &mdash;
+        this is what missing variables (irrigation zones, row orientation,
+        windbreaks, frost pockets) look like in residual space, not
+        something 271 features and a bigger ensemble fixes on its own.
+      </p>
+
+      <p>
+        Full run order and every notebook: <a href="https://github.com/simonhansedasi/GeoGastronomy/tree/main/GrapeExpectations/RegressionRidge/spark_pipeline">RegressionRidge/spark_pipeline/</a>.
+      </p>
+      </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="gis">
+    <div class="card">
+      <h2>2. GIS branch — QGIS</h2>
+      <figure>
+        <img src="img/qgis_ndvi_snapshot.png" alt="QGIS graduated symbology map, ndvi_mean_2025, sequential ramp">
+        <figcaption>2025 NDVI snapshot &mdash; QGIS graduated symbology, all 33,028 cells.</figcaption>
+      </figure>
+      <p>
+        Two static QGIS-authored views of the full 33,028-cell grid &mdash;
+        an NDVI snapshot and a 9-year trend &mdash; plus a downloadable
+        GeoPackage, sidestepping the row-count wall that crashes
+        browser-based BI map charts. The <a href="#explore">interactive map
+        at the top of this page</a> extends the same grid to four layers,
+        elevation and slope included.
+      </p>
+      <details>
+      <summary>Full write-up →</summary>
+      <div class="details-body">
+      <p>
+        The same 33,028-cell grid that crashed a browser BI tool's map
+        chart (see below) is exactly what a desktop GIS tool is built for.
+        <code>export_qgis.py</code> joins the real hex polygon geometry to
+        terrain and a 9-year NDVI trend and writes one GeoPackage —
+        no aggregation, no row-count wall.
+      </p>
+      <a class="btn" href="grapeexpectations.gpkg">Download grapeexpectations.gpkg</a>
+
+      <h3>Two QGIS-authored maps, same grid</h3>
+      <p>
+        Graduated symbology, styled and exported from an actual QGIS
+        session — full 33,028-polygon resolution, no aggregation. One
+        layer colors by <code>ndvi_mean_2025</code> (a sequential ramp —
+        how green is it right now), the other by
+        <code>ndvi_trend_per_year</code> (a diverging ramp — is it trending
+        up or down over 9 years). Elevation and slope get the same
+        treatment too, live rather than static — see the interactive map
+        at the top of the page.
+      </p>
+      <div class="map-toggle">
+        <div class="map-toggle-tabs">
+          <button type="button" class="map-toggle-btn active" data-target="qgis-snapshot">Snapshot (ndvi_mean_2025)</button>
+          <button type="button" class="map-toggle-btn" data-target="qgis-trend">Trend (ndvi_trend_per_year)</button>
+        </div>
+        <figure id="qgis-snapshot" class="map-toggle-panel active">
+          <img src="img/qgis_ndvi_snapshot.png" alt="QGIS graduated symbology map, ndvi_mean_2025, sequential ramp">
+          <figcaption>2025 NDVI snapshot, sequential green ramp — QGIS graduated symbology, all 33,028 cells.</figcaption>
+        </figure>
+        <figure id="qgis-trend" class="map-toggle-panel">
+          <img src="img/qgis_ndvi_trend.png" alt="QGIS graduated symbology map, ndvi_trend_per_year, diverging ramp">
+          <figcaption>9-year NDVI trend, diverging ramp — QGIS graduated symbology, all 33,028 cells.</figcaption>
+        </figure>
+      </div>
+      <script>
+        document.querySelectorAll('.map-toggle-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var toggle = btn.closest('.map-toggle');
+            toggle.querySelectorAll('.map-toggle-btn').forEach(function (b) { b.classList.remove('active'); });
+            toggle.querySelectorAll('.map-toggle-panel').forEach(function (p) { p.classList.remove('active'); });
+            btn.classList.add('active');
+            document.getElementById(btn.dataset.target).classList.add('active');
+          });
+        });
+      </script>
+
+      <p>
+        Prefer these two static, or want the other two layers (elevation,
+        slope) too? The full interactive version is at the top of the page.
+      </p>
+
+      <h3>What the full-resolution surface looks like</h3>
+      <p>
+        These are the matplotlib fallback — not QGIS output, but the same
+        underlying grid rendered at full density, which is the point:
+        neither of these figures aggregates or samples down from 33,028
+        cells.
+      </p>
+      <figure>
+        <img src="img/canopy_trend_map.png" alt="2024 canopy build-up map, bud break to pre-harvest peak">
+        <figcaption>2024 canopy build-up: bud break to pre-harvest peak, all 33,028 cells, diverging red/blue by NDVI Δ.</figcaption>
+      </figure>
+      <figure>
+        <img src="img/harvest_decline_map.png" alt="2024 harvest-window NDVI decline map">
+        <figcaption>Peak to harvest decline — expected for wine grapes (deficit irrigation after veraison).</figcaption>
+      </figure>
+      <figure>
+        <img src="img/ndvi_season_2024.gif" alt="Animated NDVI through the 2024 growing season">
+        <figcaption>One growing season, real Sentinel-2 composite dates, cloud-contaminated dates filtered.</figcaption>
+      </figure>
+      </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="bi">
+    <div class="card">
+      <h2>3. BI branch — Looker Studio</h2>
+      <p>
+        Looker Studio dashboard built from star-schema CSVs, since Power BI
+        wouldn't accept a personal-email signup. The report's canvas is
+        1200×900 — too wide for this column, so the live embed gets its
+        own full-width section below the fold. CSVs and the full build
+        write-up are right here.
+      </p>
+      <details>
+      <summary>Full write-up →</summary>
+      <div class="details-body">
+      <p>
+        Power BI Service rejected personal-email signup outright, and its
+        "free" workaround wanted a phone number and a subscription plan.
+        Looker Studio works with a plain Gmail account — but its map chart
+        draws one marker per row client-side and crashed the browser tab
+        past a few thousand points, which this grid clears by a wide
+        margin. The star-schema CSVs below are the real fix: same data,
+        same tool, joined by hand in Looker Studio's Blend editor instead
+        of trying to force 33,028 markers onto one map.
+      </p>
+      <a class="btn" href="data/dim_cells.csv">dim_cells.csv</a>
+      <a class="btn" href="data/dim_years.csv">dim_years.csv</a>
+      <a class="btn" href="data/fact_ndvi_yearly.csv">fact_ndvi_yearly.csv</a>
+      </div>
+      </details>
+    </div>
+  </section>
+  </div>
+
+  <footer class="wide">
+    Notebooks and full pipeline: <a href="https://github.com/simonhansedasi/GeoGastronomy/tree/main/GrapeExpectations">github.com/simonhansedasi/GeoGastronomy/GrapeExpectations</a>
+    &nbsp;·&nbsp; <a href="https://simonhansedasi.com">simonhansedasi.com</a>
+  </footer>
+
+</body>
+</html>
